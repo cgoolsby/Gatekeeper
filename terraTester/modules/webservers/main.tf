@@ -9,9 +9,9 @@ resource "aws_elb" "web" {
         lb_protocol         = "http"
     }
 
-    availability_zones = [
-        "${element(data.aws_availability_zones.available.names, count.index)}"
-    ]
+#    availability_zones = [
+#        "${element(data.aws_availability_zones.available.names, count.index)}"
+#    ]
 
     instances = [
         "${aws_instance.web.*.id}",
