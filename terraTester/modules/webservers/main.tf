@@ -1,7 +1,7 @@
 data "aws_availability_zones" "available" {}
 resource "aws_elb" "web" {
     name = "terraform"
-
+    subnets = ["${var.public_subnet_id}"]
     listener {
         instance_port       = 80
         instance_protocol   = "http"
@@ -52,7 +52,7 @@ resource "aws_instance" "web" {
     }
 
     provisioner "file" {
-        source = "files/"
+        source = "./modules/webservers/files/"
         destination = "/tmp/"
     }
 
