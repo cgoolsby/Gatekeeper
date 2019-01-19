@@ -5,6 +5,7 @@ variable "vpc_id"{
   description = "the vpc id"
 }
 variable "public_subnet_id" {}
+variable "private_subnet_id" {}
 variable "aws_key_name" {
   default = "keyDesktop"
 }

@@ -37,15 +37,15 @@ resource "aws_instance" "web" {
     count = 2 #TD "${var.web_instance_count}"
 
     instance_type = "t2.micro" # "${var.aws_instance_type}"
-#    image_id           = "${data.aws_ami.ubuntu.id}"
     ami           = "${data.aws_ami.ubuntu.id}"
 #    availability_zone = "${element(data.aws_availability_zones.available.names, count.index)}"
 
     key_name = "${var.aws_key_name}"
     vpc_security_group_ids = [ "${var.sg-ssh_id}", "${var.sg-http_id}", "${var.sg-https_id}"]
+#####Public to Private swap lines
     associate_public_ip_address = true
     subnet_id = "${var.public_subnet_id}"
-
+#####
     connection {
         user = "${var.aws_instance_user}"
         private_key = "${file("${var.aws_key_path}")}"
@@ -53,18 +53,22 @@ resource "aws_instance" "web" {
 
     provisioner "file" {
         source = "./modules/webservers/files/"
-        destination = "/tmp/"
+        destination = "/home/ubuntu"
     }
+
 
     provisioner "remote-exec" {
         inline = [
             "sleep 120; sudo apt-get update; sudo apt-get install -y software-properties-common; sudo apt-get install -y ansible",
             "curl -fsSL https://get.docker.com -o get-docker.sh",
             "sh get-docker.sh",
-            "sudo docker pull nginx",
-            "sudo docker run -d -p 80:80 -v /tmp:/usr/share/nginx/html --name nginx_${count.index} nginx",
-            "sudo sed -iE \"s/{{ hostname }}/`hostname`/g\" /tmp/index.html",
-            "sudo sed -iE \"s/{{ container_name }}/nginx_${count.index}/g\" /tmp/index.html"
+            "sudo bash deploy.sh"
+#            "sudo docker build ###DOCKERFILE"
+#            "sudo docker run"
+#            "sudo docker pull nginx",
+#            "sudo docker run -d -p 80:80 -v /tmp:/usr/share/nginx/html --name nginx_${count.index} nginx",
+#            "sudo sed -iE \"s/{{ hostname }}/`hostname`/g\" /tmp/index.html",
+#            "sudo sed -iE \"s/{{ container_name }}/nginx_${count.index}/g\" /tmp/index.html"
         ]
     }
 
