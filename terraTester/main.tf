@@ -7,6 +7,7 @@ module "vpc_network" {
   source = "./modules/network/vpc/"
  }
 module "internet_gateway" {
+  source = "./modules/network/igw/"
   vpc_id = "${module.vpc_network.vpc_id}"
 }
 module "security_groups" {
@@ -20,7 +21,7 @@ module "subnets" {
 module "route_tables" {
   source = "./modules/network/route_tables/"
   vpc_id = "${module.vpc_network.vpc_id}"
-  igw_id = "${module.igw.igw_id}"
+  igw_id = "${module.internet_gateway.igw_id}"
 }
 module "webservers" {
   source = "./modules/webservers/"
