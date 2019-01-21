@@ -1,3 +1,5 @@
+variable "github_link" {}
+
 variable "aws_region" {
   default = "us-west-2"
 }

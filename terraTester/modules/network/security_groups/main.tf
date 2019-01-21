@@ -35,6 +35,14 @@ resource "aws_security_group_rule" "http_in" {
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.http_in_out.id}"
 }
+resource "aws_security_group_rule" "http_in8080" {
+  type = "ingress"
+  from_port = 8080
+  to_port = 8080
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.http_in_out.id}"
+}
 resource "aws_security_group_rule" "http_out" {
   type = "egress"
   from_port = 80
@@ -44,6 +52,14 @@ resource "aws_security_group_rule" "http_out" {
   security_group_id = "${aws_security_group.http_in_out.id}"
 }
 
+resource "aws_security_group_rule" "http_out8080" {
+  type = "egress"
+  from_port = 8080
+  to_port = 8080
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.http_in_out.id}"
+}
 resource "aws_security_group_rule" "https_in" {
   type = "ingress"
   from_port = 443

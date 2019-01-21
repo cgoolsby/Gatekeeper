@@ -43,4 +43,5 @@ module "webservers" {
   sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
   sg-http_id = "${module.security_groups.sg-http_id}" 
   sg-https_id = "${module.security_groups.sg-https_id}" 
+  github_link = "${var.github_link}"
 }

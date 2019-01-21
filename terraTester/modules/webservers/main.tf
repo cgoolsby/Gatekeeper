@@ -51,16 +51,28 @@ resource "aws_instance" "web" {
         private_key = "${file("${var.aws_key_path}")}"
     }
 
+    provisioner "local-exec" {
+      command = "echo ${var.github_link} >> ./modules/webservers/files/github.txt"
+    }
+
     provisioner "file" {
         source = "./modules/webservers/files/"
         destination = "/home/ubuntu"
     }
 
+    provisioner "remote-exec" {
+      inline = [ "mkdir jenkins" ]
+    }
+
+    provisioner "file" {
+        source = "./modules/webservers/jenkins/"
+        destination = "/home/ubuntu/jenkins/"
+    }
 
     provisioner "remote-exec" {
         inline = [
             "sleep 120; sudo apt-get update; sudo apt-get install -y software-properties-common; sudo apt-get install -y ansible",
-            "curl -fsSL https://get.docker.com -o get-docker.sh",
+            #"curl -fsSL https://get.docker.com -o get-docker.sh",
             "sh get-docker.sh",
             "sudo bash deploy.sh"
 #            "sudo docker build ###DOCKERFILE"

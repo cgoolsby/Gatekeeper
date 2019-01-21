@@ -4,5 +4,7 @@ services:
     build: .
     ports:
       - "80:5000"
+    container_name: WebPage
   redis:
     image: "redis:alpine"
+    container_name: Redis
