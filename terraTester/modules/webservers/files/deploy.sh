@@ -18,8 +18,11 @@ jp=`sudo docker logs JenkinsQuick 2>&1 | grep -A 2 "Please" | tail -1`
 done
 
 echo $jp > TempFile.txt
-
+#jp=`cat TempFile.txt`
 mkdir /home/ubuntu/Mounted
+
+sleep 60
+
 
 java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp install-plugin git; java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp create-job autoBuildFlask < jenkins/template.xml; java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp restart 
 

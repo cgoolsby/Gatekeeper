@@ -7,4 +7,4 @@ services:
       - "8080:8080"
     container_name: JenkinsQuick
     volumes:
-      - /home/ubuntu/Mounts:/root/app/
+      - /home/ubuntu/Mounted:/root/app/
