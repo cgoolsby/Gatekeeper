@@ -4,5 +4,6 @@ variable "key_name" {
 }
 variable "github_link" {
   description = "link to github w/ your flask app"
-  default = "https://github.com/cgoolsby/simpleFlaskTester"
+#  default = "https://github.com/cgoolsby/simpleFlaskTester"
+  default = "cgoolsby/simpleFlaskTester"
 }

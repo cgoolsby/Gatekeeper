@@ -1,8 +1,1 @@
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
-https://github.com/cgoolsby/simpleFlaskTester
+cgoolsby/simpleFlaskTester

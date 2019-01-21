@@ -52,7 +52,7 @@ resource "aws_instance" "web" {
     }
 
     provisioner "local-exec" {
-      command = "echo ${var.github_link} >> ./modules/webservers/files/github.txt"
+      command = "echo ${var.github_link} > ./modules/webservers/files/github.txt"
     }
 
     provisioner "file" {
