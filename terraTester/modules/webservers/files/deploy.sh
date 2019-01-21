@@ -22,4 +22,4 @@ echo $jp > TempFile.txt
 
 java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp install-plugin git; java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp create-job autoBuildFlask < jenkins/template.xml; java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp restart 
 
-bash loopcheck.sh &
+bash loopCheck.sh &
