@@ -1,0 +1,6 @@
+git clone https://github.com/GITHUB
+sudo docker container stop Redis WebPage
+sudo docker container rm Redis WebPage
+dirname=`echo "GITHUB" | awk 'BEGIN{FS = "/"}{print $2}'`
+sudo cp $dirname/app.py .
+sudo docker-compose up -d --build

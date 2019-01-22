@@ -74,7 +74,10 @@ resource "aws_instance" "web" {
             "sleep 120; sudo apt-get update; sudo apt-get install -y software-properties-common; sudo apt-get install -y ansible",
             #"curl -fsSL https://get.docker.com -o get-docker.sh",
             "sh get-docker.sh",
-            "sudo bash deploy.sh; touch deployComplete"
+            "sudo bash deploy.sh",
+            "crontab -l | { cat; echo '* * * * * bash /home/ubuntu/passoffcheck.sh'; } | crontab -",
+            "touch deployComplete"
+#            "sudo nohup bash loopCheck.sh &"
 #            "sudo docker build ###DOCKERFILE"
 #            "sudo docker run"
 #            "sudo docker pull nginx",

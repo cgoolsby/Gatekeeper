@@ -8,11 +8,9 @@ variable "vpc_id"{
 }
 variable "public_subnet_id" {}
 variable "private_subnet_id" {}
-variable "aws_key_name" {
-  default = "keyDesktop"
-}
+variable "aws_key_name" {}
 variable "aws_key_path" {
-   default = "~/.ssh/keyDesktop.pem"
+   default = "~/.ssh/jello.pem"
 }
 variable "sg-ssh_id" {}
 variable "sg-http_id" {}

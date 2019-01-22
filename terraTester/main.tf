@@ -44,4 +44,5 @@ module "webservers" {
   sg-http_id = "${module.security_groups.sg-http_id}" 
   sg-https_id = "${module.security_groups.sg-https_id}" 
   github_link = "${var.github_link}"
+  aws_key_name = "${var.key_name}"
 }

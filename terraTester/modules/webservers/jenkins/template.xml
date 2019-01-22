@@ -32,16 +32,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>echo &quot;Observed a build!&quot;
-echo "git clone https://github.com/GITHUB" > /root/app/passoff.txt
-echo "sudo docker container stop Redis WebPage" >> /root/app/passoff.txt
-echo "sudo docker container rm Redis WebPage" >> /root/app/passoff.txt
-echo `echo "GITHUB" | awk 'BEGIN{FS = "/"}{print $2}'` >> /root/app/passoff.txt
-
-echo "sudo cp $dirname/app.py ." >> /root/app/passoff.txt
-echo "sudo docker-compose up -d --build" >> /root/app/passoff.txt
-
-</command>
+      <command>
+                echo &quot;Observed a build!&quot;
+                cp /root/app/passoff.txt.mv /root/app/passoff.txt
+      </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

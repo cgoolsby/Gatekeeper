@@ -1,5 +1,6 @@
 github=`cat github.txt`
 sed -ie "s@GITHUB@$github@g" jenkins/template.xml
+sed -ie "s@GITHUB@$github@g" Mounted/passoff.txt.mv
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
@@ -26,4 +27,6 @@ sleep 60
 
 java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp install-plugin git; java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp create-job autoBuildFlask < jenkins/template.xml; java -jar jenkins/jenkins-cli.jar -s http://localhost:8080/ -auth admin:$jp restart 
 
-bash loopCheck.sh &
+sudo disown bash loopCheck.sh &
+
+touch Deplyed.txt
