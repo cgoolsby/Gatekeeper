@@ -29,6 +29,7 @@ module "bastion" {
   sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
   key_name = "${var.key_name}"
   vpc_id = "${module.vpc_network.vpc_id}"
+  sg-bastion_id = "${module.security_groups.sg-BH_Cluster_Open}"
 }
   
 resource "aws_main_route_table_association" "a" {
