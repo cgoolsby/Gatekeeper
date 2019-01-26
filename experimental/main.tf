@@ -14,6 +14,7 @@ module "route_tables" {
   source = "./modules/network/route_tables/"
   vpc_id = "${module.vpc_network.vpc_id}"
   igw_id = "${module.internet_gateway.igw_id}"
+  Public_Subnet_id_list = "${module.subnets.public_subnet_ids}"
 }
 module "security_groups" {
   source = "./modules/network/security_groups/"
@@ -25,7 +26,7 @@ module "subnets" {
 }
 module "bastion" {
   source = "./modules/bastion/"
-  public_subnet_id = "${module.subnets.public_subnet_id}"
+  public_subnet_id = "${module.subnets.public_subnet_ids[0]}"
   sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
   key_name = "${var.key_name}"
   vpc_id = "${module.vpc_network.vpc_id}"
@@ -39,8 +40,8 @@ resource "aws_main_route_table_association" "a" {
 module "webservers" {
   source = "./modules/webservers/"
   vpc_id = "${module.vpc_network.vpc_id}"
-  public_subnet_id = "${module.subnets.public_subnet_id}"
-  private_subnet_id = "${module.subnets.private_subnet_id}"
+  public_subnet_id = "${module.subnets.public_subnet_ids[0]}"
+  private_subnet_id = "${module.subnets.private_subnet_ids[0]}"
   sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
   sg-http_id = "${module.security_groups.sg-http_id}" 
   sg-https_id = "${module.security_groups.sg-https_id}" 
@@ -50,8 +51,8 @@ module "webservers" {
 module "k8s" {
   source = "./modules/k8s/"
   vpc_id = "${module.vpc_network.vpc_id}"
-  public_subnet_id = "${module.subnets.public_subnet_id}"
-  private_subnet_id = "${module.subnets.private_subnet_id}"
+  EKS_Subnet_list = "${module.subnets.public_subnet_ids}"
+#  private_subnet_id = "${module.subnets.private_subnet_ids}"
   sg-BH_Cluster_Open_id = "${module.security_groups.sg-BH_Cluster_Open}"
   sg-node_out_id = "${module.security_groups.sg-node_out}"
   ### Where the tech params will be passed in

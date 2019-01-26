@@ -1,8 +1,9 @@
+data "aws_availability_zones" "available" {}
 resource "aws_subnet" "public" {
-  count = 1
+  count = 2
   vpc_id = "${var.vpc_id}"
-#  availability_zone = "${element(var.availability_zones, count.index)}"
-  cidr_block = "10.0.0.0/24"
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
+  cidr_block = "10.0.${count.index}.0/24"
   map_public_ip_on_launch = true
   tags {
     Name = "Public Subnet"
@@ -10,10 +11,10 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count = 1
+  count = 2
   vpc_id = "${var.vpc_id}"
-#  availability_zone = "${element(var.availability_zones, count.index)}"
-  cidr_block = "10.0.1.0/24"
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
+  cidr_block = "10.0.1${count.index}.0/24"
   map_public_ip_on_launch = false
   tags {
     Name = "Private Subnet"
