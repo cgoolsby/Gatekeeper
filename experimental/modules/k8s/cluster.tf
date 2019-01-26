@@ -1,6 +1,6 @@
-resource "aws_eks_cluster" "demo" {
+resource "aws_eks_cluster" "EKS" {
   name            = "${var.cluster-name}"
-  role_arn        = "${aws_iam_role.demo-cluster.arn}"
+  role_arn        = "${aws_iam_role.EKS-cluster.arn}"
 
   vpc_config {
     security_group_ids = ["${var.sg-BH_Cluster_Open_id}"]
@@ -8,8 +8,8 @@ resource "aws_eks_cluster" "demo" {
   }
 
   depends_on = [
-    "aws_iam_role_policy_attachment.demo-cluster-AmazonEKSClusterPolicy",
-    "aws_iam_role_policy_attachment.demo-cluster-AmazonEKSServicePolicy",
+    "aws_iam_role_policy_attachment.EKS-cluster-AmazonEKSClusterPolicy",
+    "aws_iam_role_policy_attachment.EKS-cluster-AmazonEKSServicePolicy",
   ]
 }
 

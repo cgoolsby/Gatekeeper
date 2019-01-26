@@ -1,6 +1,6 @@
-resource "aws_autoscaling_group" "demo" {
+resource "aws_autoscaling_group" "EKS" {
   desired_capacity     = "${var.num_EKS_nodes_desired}"
-  launch_configuration = "${aws_launch_configuration.demo.id}"
+  launch_configuration = "${aws_launch_configuration.EKS.id}"
   max_size             = "${var.num_EKS_nodes_max}"
   min_size             = "${var.num_EKS_nodes_min}"
   name                 = "${var.EKS_name}"
