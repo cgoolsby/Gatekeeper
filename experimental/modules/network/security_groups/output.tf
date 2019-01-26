@@ -7,7 +7,7 @@ output "sg-http_id" {
 output "sg-https_id" {
   value = "${aws_security_group.https_in_out.id}"
 } #makes security groups build before webservers
-output "sg-BH_Cluster_Open"
+output "sg-BH_Cluster_Open" {
   value = "${aws_security_group.BH_Cluster_Open.id}"
 }
 output "sg-node_out" {
