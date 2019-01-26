@@ -10,12 +10,6 @@ module "internet_gateway" {
   source = "./modules/network/igw/"
   vpc_id = "${module.vpc_network.vpc_id}"
 }
-module "route_tables" {
-  source = "./modules/network/route_tables/"
-  vpc_id = "${module.vpc_network.vpc_id}"
-  igw_id = "${module.internet_gateway.igw_id}"
-  Public_Subnet_id_list = "${module.subnets.public_subnet_ids}"
-}
 module "security_groups" {
   source = "./modules/network/security_groups/"
   vpc_id = "${module.vpc_network.vpc_id}"
@@ -33,9 +27,11 @@ module "bastion" {
   sg-bastion_id = "${module.security_groups.sg-BH_Cluster_Open}"
 }
   
-resource "aws_main_route_table_association" "a" {
+module "route_tables" {
+  source = "./modules/network/route_tables/"
   vpc_id = "${module.vpc_network.vpc_id}"
-  route_table_id = "${module.route_tables.public_id}"
+  igw_id = "${module.internet_gateway.igw_id}"
+  Public_Subnet_id_list = "${module.subnets.public_subnet_ids}"
 }
 module "webservers" {
   source = "./modules/webservers/"

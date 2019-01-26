@@ -20,10 +20,14 @@ resource "aws_subnet" "private" {
     Name = "Private Subnet"
   }
 }
-resource "aws_eip" "nat_eip" {
-  vpc = true
-}
-resource "aws_nat_gateway" "nat" {
-  allocation_id = "${aws_eip.nat_eip.id}"
-  subnet_id = "${aws_subnet.private.id}"
-}
+### Not necessary at the moment
+### Code does not work as is
+#resource "aws_eip" "nat_eip" {
+#  vpc = true
+ # count = 2
+#}
+#resource "aws_nat_gateway" "nat" {
+#  count = 2
+#  allocation_id = "${aws_eip.nat_eip.[count.index].id}"
+#  subnet_id = "${aws_subnet.private.[count.index].ids}"
+#}

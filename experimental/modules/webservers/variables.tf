@@ -10,7 +10,7 @@ variable "public_subnet_id" {}
 variable "private_subnet_id" {}
 variable "aws_key_name" {}
 variable "aws_key_path" {
-   default = "~/.ssh/jello.pem"
+   default = "~/.ssh/keyDesktop.pem"
 }
 variable "sg-ssh_id" {}
 variable "sg-http_id" {}

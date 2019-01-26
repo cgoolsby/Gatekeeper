@@ -21,14 +21,12 @@ resource "aws_route_table" "public-rt" {
 resource "aws_main_route_table_association" "public-rt" {
   count = 2
   vpc_id = "${var.vpc_id}"
-  subnet_id = "${var.Public_Subnet_id_list[count.index]}"
   route_table_id = "${aws_route_table.public-rt.id}"
 }
 
 #resource "aws_route_table" "private-rt" {
 #  count = 2
 #  vpc_id = "${var.vpc_id}"
-#  subnet_id = "${var.Private_Subnet_id_list[count.index]}"
 #  route_table_id = "${aws_route_tables.private-rt.id}"
 #  tags {
 #    Name = "${terraform.workspace}-private-rt"

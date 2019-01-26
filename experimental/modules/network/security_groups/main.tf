@@ -62,7 +62,6 @@ resource "aws_security_group_rule" "http_in" {
 }
 resource "aws_security_group_rule" "node_out" {
   description = "allows all outbound from your nodes"
-  name = "node-outbound-open"
   type = "egress"
   from_port = 0
   to_port = 0
