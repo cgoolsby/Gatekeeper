@@ -1,10 +1,10 @@
 resource "aws_eks_cluster" "EKS" {
-  name = "${var.cluster-name}"
-  role_arn = "${aws_iam_role.EKS-cluster.arn}"
+  name            = "${var.cluster-name}"
+  role_arn        = "${aws_iam_role.EKS-cluster.arn}"
 
   vpc_config {
-    security_group_ids = ["${aws_security_group.EKS-cluster.id}"
-    subnet_ids = ["${aws_subnet.EKS*.id}"]                       #TD
+    security_group_ids = ["${var.sg-BH_Cluster_Open_id}"]
+    subnet_ids         = ["${var.EKS_Subnet_list[*]}"]
   }
 
   depends_on = [
@@ -12,3 +12,4 @@ resource "aws_eks_cluster" "EKS" {
     "aws_iam_role_policy_attachment.EKS-cluster-AmazonEKSServicePolicy",
   ]
 }
+
