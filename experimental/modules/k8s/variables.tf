@@ -9,3 +9,4 @@ variable "num_EKS_nodes_max" {}
 variable "num_EKS_nodes_min" {}
 variable "EKS_name" {}
 variable "EKS_Subnet_list" {}
+variable "sg-BH_Cluster_Open_id" {}
