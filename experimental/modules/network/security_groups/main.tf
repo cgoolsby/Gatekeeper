@@ -15,26 +15,26 @@ resource "aws_security_group" "BH_Cluster_Open" {
   name = "BH-Nodes-Master-Open"
   vpc_id = "${var.vpc_id}"
 }
-resource "aws_security_group" "node_out"{
+resource "aws_security_group" "node_out" {
   description = "all outbound from node is allowed"
   name = "Node-Out-Open"
   vpc_id = "${var.vpc_id}"
 }
 resource "aws_security_group_rule" "open_self_in" {
-  type "ingress"
+  type = "ingress"
   from_port = 0
   to_port = 0
-  protocol "-1"
-  security_group_id = "${aws_security_group.BH_Cluster_Open.id"
-  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id"
+  protocol = "-1"
+  security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
+  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
 }
 resource "aws_security_group_rule" "open_self_out" {
-  type "egress"
+  type = "egress"
   from_port = 0
   to_port = 0
-  protocol "-1"
+  protocol = "-1"
   security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
-  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id"
+  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
 }
 resource "aws_security_group_rule" "ssh_in" {
   type = "ingress"
@@ -52,7 +52,6 @@ resource "aws_security_group_rule" "ssh_out" {
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.ssh_in_out.id}"
 }
-
 resource "aws_security_group_rule" "http_in" {
   type = "ingress"
   from_port = 80
@@ -60,6 +59,16 @@ resource "aws_security_group_rule" "http_in" {
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.http_in_out.id}"
+}
+resource "aws_security_group_rule" "node_out" {
+  description = "allows all outbound from your nodes"
+  name = "node-outbound-open"
+  type = "egress"
+  from_port = 0
+  to_port = 0
+  protocol = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = "${aws_security_group.node_out.id}"
 }
 resource "aws_security_group_rule" "http_in8080" {
   type = "ingress"
@@ -77,7 +86,6 @@ resource "aws_security_group_rule" "http_out" {
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.http_in_out.id}"
 }
-
 resource "aws_security_group_rule" "http_out8080" {
   type = "egress"
   from_port = 8080
@@ -101,14 +109,4 @@ resource "aws_security_group_rule" "https_out" {
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = "${aws_security_group.https_in_out.id}"
-}
-resource "aws_security_group_rule" "node_out" {
-  description = "allows all outbound from your nodes"
-  name = "node-outbound-open"
-  type "egress"
-  from_port = 0
-  to_port = 0
-  protocol = "-1"
-  cidr_blocks = ["0.0.0.0/0]"
-  security_group_id = "${aws_security_group.node_out.id}"
 }
