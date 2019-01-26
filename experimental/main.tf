@@ -59,4 +59,5 @@ module "k8s" {
   num_EKS_nodes_max = 2
   num_EKS_nodes_min = 1
   EKS_name = "Terraform-EKS"
+  EKS_instance_type = "m4.large"
 }

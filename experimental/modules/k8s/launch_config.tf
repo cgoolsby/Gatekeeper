@@ -19,9 +19,9 @@ resource "aws_launch_configuration" "EKS" {
   associate_public_ip_address = true
   iam_instance_profile        = "${aws_iam_instance_profile.EKS-node.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
-  instance_type               = "m4.large"
+  instance_type               = "${var.EKS_instance_type}"
   name_prefix                 = "${var.EKS_name}-"
-  security_groups             = ["${aws_security_group.EKS-node.id}"]
+  security_groups             = ["${var.sg-BH_Cluster_Open_id}"]
   user_data_base64            = "${base64encode(local.EKS-node-userdata)}"
 
   lifecycle {
