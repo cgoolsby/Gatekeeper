@@ -10,6 +10,27 @@ resource "aws_security_group" "https_in_out" {
   vpc_id = "${var.vpc_id}"
   name = "${terraform.workspace}-https_in_out"
 }
+resource "aws_security_group" "BH_Cluster_Open" {
+  description = "Bastion Host and Cluster nodes/master are totally open to each other. i.e. anything in this SG has total access"
+  name = "BH-Nodes-Master-Open"
+  vpc_id = "${var.vpc_id}"
+}
+resource "aws_security_group_rule" "open_self_in" {
+  type "ingress"
+  from_port = 0
+  to_port = 0
+  protocol "-1"
+  security_group_id = "${aws_security_group.BH_Cluster_Open.id"
+  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id"
+}
+resource "aws_security_group_rule" "open_self_out" {
+  type "egress"
+  from_port = 0
+  to_port = 0
+  protocol "-1"
+  security_group_id = "${aws_security_group.BH_Cluster_Open.id"
+  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id"
+}
 resource "aws_security_group_rule" "ssh_in" {
   type = "ingress"
   from_port = 0 #22
