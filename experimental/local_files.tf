@@ -4,9 +4,16 @@ resource "local_file" "webserver_ip" {
 }
 resource "local_file" "eks_config" {
     content     = "${module.k8s.kubeconfig}"
-    filename = "~/.kube/config"
+    filename = "kubeconfig"
 }
-
+resource "null_resource" "makeKubeConfig" {
+  triggers { 
+    template = "${local_file.eks_config.content}"
+  }
+  provisioner "local-exec" {
+    command = "cp kubeconfig ~/.kube/config"
+  }
+}
 resource "local_file" "config_map_aws_auth" {
     content     = "${module.k8s.config_map_aws_auth}"
     filename = "config_map_aws_auth.yml"
