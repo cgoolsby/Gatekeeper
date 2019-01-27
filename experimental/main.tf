@@ -32,6 +32,7 @@ module "route_tables" {
   vpc_id = "${module.vpc_network.vpc_id}"
   igw_id = "${module.internet_gateway.igw_id}"
   Public_Subnet_id_list = "${module.subnets.public_subnet_ids}"
+  Private_Subnet_id_list = "${module.subnets.private_subnet_ids}"
 }
 module "webservers" {
   source = "./modules/webservers/"
@@ -43,7 +44,11 @@ module "webservers" {
   sg-https_id = "${module.security_groups.sg-https_id}" 
   github_link = "${var.github_link}"
   aws_key_name = "${var.key_name}"
+  aws_key_path = "${var.key_path}"
 }
+#module "s3" {
+#  source = "./modules/s3/"
+#}
 module "k8s" {
   source = "./modules/k8s/"
   vpc_id = "${module.vpc_network.vpc_id}"

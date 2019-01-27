@@ -23,6 +23,6 @@ resource "aws_instance" "bastion" {
   associate_public_ip_address = true
   subnet_id = "${var.public_subnet_id}"
   tags {
-    Name = "${terraform.workspace}-bastion}"
+    Name = "${terraform.workspace}-bastion"
   }
 }

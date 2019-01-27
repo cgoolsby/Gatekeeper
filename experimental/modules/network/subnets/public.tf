@@ -1,4 +1,5 @@
 data "aws_availability_zones" "available" {}
+
 resource "aws_subnet" "public" {
   count = 2
   vpc_id = "${var.vpc_id}"
@@ -6,7 +7,7 @@ resource "aws_subnet" "public" {
   cidr_block = "10.0.${count.index}.0/24"
   map_public_ip_on_launch = true
   tags {
-    Name = "Public Subnet"
+    Name = "Public Subnet-${count.index}"
   }
 }
 
@@ -17,7 +18,7 @@ resource "aws_subnet" "private" {
   cidr_block = "10.0.1${count.index}.0/24"
   map_public_ip_on_launch = false
   tags {
-    Name = "Private Subnet"
+    Name = "Private Subnet-${count.index}"
   }
 }
 ### Not necessary at the moment
