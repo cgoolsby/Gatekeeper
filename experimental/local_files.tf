@@ -18,3 +18,11 @@ resource "local_file" "config_map_aws_auth" {
     content     = "${module.k8s.config_map_aws_auth}"
     filename = "config_map_aws_auth.yml"
 }
+resource "null_resource" "ApplyAWSCredentials" {
+  triggers { 
+    template = "${local_file.config_map_aws_auth.content}"
+  }
+  provisioner "local-exec" {
+    command = "kubectl apply -f config_map_aws_auth.yml"
+  }
+}
