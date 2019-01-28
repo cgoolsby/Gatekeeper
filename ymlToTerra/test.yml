@@ -1,0 +1,6 @@
+InstanceType: m4.large
+Nodes: 2
+IngestionSystem: Zookeeper.Kafka
+ComputeCluster: Hadoop.Spark
+SparkDatabase: Cassandra
+ExtraEC2: None
