@@ -5,14 +5,12 @@ import (
   "log"
   "strings"
   "strconv"
+  "bufio"
 )
-
-
 
 var fileName = "test.yml"
 
-
-
+// give user a list of options, then write that option to the yml
 func selectOption(name string, options []string) {
   fmt.Println("Which ", name, "would you like?")
   for i, j := range options {
@@ -29,6 +27,8 @@ func check(e error) {
         panic(e)
     }
 }
+
+//ask for a yes or no response
 func askForConfirmation() bool {
 	var response string
 	_, err := fmt.Scanln(&response)
@@ -46,6 +46,7 @@ func askForConfirmation() bool {
 		return askForConfirmation()
 	}
 }
+
 // posString returns the first index of element in slice.
 // If slice does not contain element, returns -1.
 func posString(slice []string, element string) int {
@@ -57,10 +58,12 @@ func posString(slice []string, element string) int {
 	return -1
 }
 
-// containsString returns true iff slice contains element
+//containsString returns true iff slice contains element
 func containsString(slice []string, element string) bool {
 	return !(posString(slice, element) == -1)
 }
+
+//split string input of numbers and place into a slice
 func numbers(s string) []int {
     var n []int
     for _, f := range strings.Fields(s) {
@@ -71,27 +74,25 @@ func numbers(s string) []int {
     }
     return n
 }
+//Check which ports the user wants open for a specific instance
 func portsOpen(name string) {
   fmt.Println("Are there any specific ports you would like open for ", name)
   if(askForConfirmation()) {
     fmt.Println("Please type the ports you want open.  Seperate them with a space")
-    var portsString string
-    _, err := fmt.Scanln(&portsString)
-    if err != nil {
-      log.Fatal(err)
+    var n []int
+    scanner := bufio.NewScanner(os.Stdin)
+    if scanner.Scan() {
+      portsString := scanner.Text()
+      n = numbers(portsString)
     }
-    var n []int = numbers(portsString)
     for _ , i := range n {
       writeYml(fileName, "OpenPort", strconv.Itoa(i))
     }
   }
 }
-
+// write two options seperated by a colon
 func writeYml(fileName, opt1, opt2 string) {
   write := (opt1 + ": " + opt2 + "\n")
-  //write := []byte(opt1 + ": " + opt2 + "\n")
-  //err := ioutil.WriteFile(fileName, write, 0644)
-  //check(err)
   f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   if err != nil {
     log.Fatal(err)
@@ -103,20 +104,30 @@ func writeYml(fileName, opt1, opt2 string) {
    log.Fatal(err)
  }
 }
+//Read a number from STDIN
+func readNumber() (number int) {
+    fmt.Scanln(&number)
+    if(0<number && number<50) {
+      fmt.Println("You selected ", number, " nodes")
+    }else{
+      fmt.Println("Something seemed to not have worked, try again!")
+      return readNumber()
+    }
+    return number
+  }
 
+func main() {
+  //Kubernetes Cluster Parameters
+  InstanceTypes := []string{"t2.micro", "t2.medium", "m4.large"} //More to be added later, better way to get these in?
+  name := "InstanceType"
+  selectOption(name, InstanceTypes)
+  fmt.Println("How many nodes would you like in your Kubernetes Cluster?")
+  number := readNumber()
+  writeYml(fileName, "Nodes", strconv.Itoa(number))
 
-
-
-
-
-
-
-
-func main(){
- 
-  // Ingestion System
+  //Ingestion System
   IngestionSystem := []string{"None", "Zookeeper.Kafka", "Pulsar"}
-  name := "IngestionSystem"
+  name = "IngestionSystem"
   selectOption(name, IngestionSystem)
   portsOpen(name)
 
@@ -124,15 +135,17 @@ func main(){
   ComputeCluster := []string{"None", "Hadoop.Spark", "Flink", "Presto", "Pelican"}
   name = "ComputeCluster"
   selectOption(name, ComputeCluster)
+  portsOpen(name)
 
   //Database
   DataBase := []string{"None", "mySQL", "Postgres", "Cassandra", "MongoDB"}
   name = "SparkDatabase"
   selectOption(name, DataBase)
-
+  portsOpen(name)
 
   //Extra EC2 Instances
   EC2 := []string{"None", "1", "2", "3", "4", "5"}
   name = "ExtraEC2"
   selectOption(name, EC2)
+  portsOpen(name)
 }
