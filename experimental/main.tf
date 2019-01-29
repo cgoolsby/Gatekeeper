@@ -57,9 +57,9 @@ module "k8s" {
   sg-BH_Cluster_Open_id = "${module.security_groups.sg-BH_Cluster_Open}"
   sg-node_out_id = "${module.security_groups.sg-node_out}"
   ### Where the tech params will be passed in
-  num_EKS_nodes_desired = 2
-  num_EKS_nodes_max = 2
+  num_EKS_nodes_desired = "${var.EKS_nodes}"
+  num_EKS_nodes_max = "${var.EKS_nodes}"
   num_EKS_nodes_min = 1
   EKS_name = "Terraform-EKS"
-  EKS_instance_type = "m4.large"
+  EKS_instance_type = "${var.Node_type}"
 }

@@ -88,7 +88,7 @@ func portsOpen(name string) {
     for _ , i := range n {
       writeYml(fileName, "OpenPort", strconv.Itoa(i))
     }
-  }
+  }else{writeYml(fileName, "OpenPort", "None")}
 }
 // write two options seperated by a colon
 func writeYml(fileName, opt1, opt2 string) {
@@ -115,37 +115,78 @@ func readNumber() (number int) {
     }
     return number
   }
-
+func CPU_Mem_Max_Min(name string) {
+  var input int
+  options := []string{"MaximumCPU", "MinimumCPU", "MaximumMemory", "MinimumMemory"}
+  for _, j := range options {
+    fmt.Println("What is the", j, " for the ", name)
+    fmt.Scanln(&input)
+    writeYml(fileName, j, strconv.Itoa(input))
+  }
+}
 func main() {
   //Kubernetes Cluster Parameters
+  //kubeNodeType
   InstanceTypes := []string{"t2.micro", "t2.medium", "m4.large"} //More to be added later, better way to get these in?
   name := "InstanceType"
   selectOption(name, InstanceTypes)
+  //kubeNodes
   fmt.Println("How many nodes would you like in your Kubernetes Cluster?")
   number := readNumber()
   writeYml(fileName, "Nodes", strconv.Itoa(number))
 
   //Ingestion System
+  //ingestion
   IngestionSystem := []string{"None", "Zookeeper.Kafka", "Pulsar"}
   name = "IngestionSystem"
   selectOption(name, IngestionSystem)
+  //ingestionPorts
   portsOpen(name)
-
+  //numberofMasters
+  writeYml(fileName, "Master", "1")
+  //numberofWorkers
+  writeYml(fileName, "Worker", "3")
+  //ingestionMastermin/max
+  CPU_Mem_Max_Min("IngestionMaster")
+  //ingestionWorkerMin/Max
+  CPU_Mem_Max_Min("IngestionWorker")
   //Compute Cluster
+  //compute
   ComputeCluster := []string{"None", "Hadoop.Spark", "Flink", "Presto", "Pelican"}
   name = "ComputeCluster"
   selectOption(name, ComputeCluster)
+  //computePorts
   portsOpen(name)
-
+  //numberofMasters
+  writeYml(fileName, "Master", "1")
+  //numberofWorkers
+  writeYml(fileName, "Worker", "3")
+  //computeMasterMin/Max
+  CPU_Mem_Max_Min("ComputeClusterMaster")
+  //computeWorkerMin/Max
+  CPU_Mem_Max_Min("ComputeClusterWorker")
   //Database
   DataBase := []string{"None", "mySQL", "Postgres", "Cassandra", "MongoDB"}
   name = "SparkDatabase"
+  //database
   selectOption(name, DataBase)
+  //database ports
   portsOpen(name)
+  //database number
+  fmt.Println("How many Databases would you like in your Kubernetes Cluster?")
+  number = readNumber()
+  writeYml(fileName, "databaseNumber", strconv.Itoa(number))
+  //database size
+  writeYml(fileName, "databaseSize", "40")
 
   //Extra EC2 Instances
-  EC2 := []string{"None", "1", "2", "3", "4", "5"}
+  
+  EC2 := []string{"0", "1", "2", "3", "4", "5"}
   name = "ExtraEC2"
+  //EC2num
   selectOption(name, EC2)
+  //EC2type
+  selectOption(name, InstanceTypes)
+  //EC2Ports
   portsOpen(name)
 }

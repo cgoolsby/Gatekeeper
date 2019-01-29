@@ -11,3 +11,9 @@ variable "github_link" {
 #  default = "https://github.com/cgoolsby/simpleFlaskTester"
   default = "cgoolsby/simpleFlaskTester"
 }
+variable "EKS_nodes" {
+  default = 2
+}
+variable "Node_type" {
+  default = "t2.micro"
+}

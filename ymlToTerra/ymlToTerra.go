@@ -5,6 +5,7 @@ import (
   "bufio"
   "os"
   "strings"
+  "strconv"
 )
 
 var fileName = "test.yml"
@@ -52,8 +53,8 @@ type setup struct {
   databaseCopies int
   databaseSize int
 
-  EC2 int
-  EC2Type string
+  EC2num int
+  EC2type string
   EC2Ports []int
 }
 
@@ -61,6 +62,7 @@ type setup struct {
 
 
 func main() {
+  fmt.Println("Placeholder")
   file, err := os.Open(fileName)
   if err != nil {
     panic(err)
@@ -68,81 +70,131 @@ func main() {
   defer file.Close()
 
   scanner := bufio.NewScanner(file)
-  var i := 0
+  var i = 0
+  var a = 0
   var custom setup
   for scanner.Scan() {
     var line []string
-    line = strings.Split(scanner.Text(), ":")
+    line = strings.Split(scanner.Text(), ": ")
     i = i + 1
-    switch i:
+    fmt.Println(i, line)
+    switch i {
       case 1:
         custom.kubeNodeType = line[1]
       case 2:
-        custom.kubeNodes = line[1]
+        custom.kubeNodes, err = strconv.Atoi(line[1])
+        check(err)
       case 3:
         custom.ingestion = line[1]
       case 4:
+        i = i - 1
         if(line[1] != "None" && line[0] == "OpenPort"){
-          custom.ingestionPorts = append(custom.ingestionPorts, line[1])
-          i = i - 1
+          a, err = strconv.Atoi(line[1])
+          check(err)
+          custom.ingestionPorts = append(custom.ingestionPorts, a)
+        }
+        if(line[0] != "OpenPort") {
+          custom.ingestionMaster, err = strconv.Atoi(line[1])
+          check(err)
+          i = i + 1
         }
       case 5:
-        custom.ingestionMaster = line[1]
+        custom.ingestionWorker, err = strconv.Atoi(line[1])
+        check(err)
       case 6:
-        custom.ingestionWorker = line[1]
+        custom.ingestionMasterCPUMax, err = strconv.Atoi(line[1])
+        check(err)
       case 7:
-        custom.ingestionMasterCPUMax = line[1]
+        custom.ingestionMasterCPUMin, err = strconv.Atoi(line[1])
+        check(err)
       case 8:
-        custom.ingestionMasterCPUMin = line[1]
+        custom.ingestionMasterMemMax, err = strconv.Atoi(line[1])
+        check(err)
       case 9:
-        custom.ingestionMasterMemMax = line[1]
+        custom.ingestionMasterMemMin, err = strconv.Atoi(line[1])
+        check(err)
       case 10:
-        custom.ingestionMasterMemMin = line[1]
+        custom.ingestionWorkerCPUMax, err = strconv.Atoi(line[1])
+        check(err)
       case 11:
-        custom.ingestionWorkerCPUMax = line[1]
+        custom.ingestionWorkerCPUMin, err = strconv.Atoi(line[1])
+        check(err)
       case 12:
-        custom.ingestionWorkerCPUMin = line[1]
+        custom.ingestionWorkerMemMax, err = strconv.Atoi(line[1])
+        check(err)
       case 13:
-        custom.ingestionWorkerMemMax = line[1]
+        custom.ingestionWorkerMemMin, err = strconv.Atoi(line[1])
+        check(err)
       case 14:
-        custom.ingestionWorkerMemMin = line[1]
-      case 15:
         custom.compute = line[1]
+      case 15:
+        i = i - 1
+        if(line[1] != "None" && line[0] == "OpenPort"){
+          a, err = strconv.Atoi(line[1])
+          check(err)
+          custom.computePorts = append(custom.computePorts, a)
+        }
+        if(line[0] != "OpenPort") {
+          custom.computeMaster, err = strconv.Atoi(line[1])
+          check(err)
+          i = i + 1
+        }
       case 16:
-        if(line[1] != "None" && line[0] == "OpenPort"){
-          custom.computePorts = append(custom.computePorts, line[1])
-          i = i - 1
-        }
+        custom.computeWorker, err = strconv.Atoi(line[1])
+        check(err)
       case 17:
-        custom.computeMaster = line[1]
+        custom.computeMasterCPUMax, err = strconv.Atoi(line[1])
+        check(err)
       case 18:
-        custom.computeWorker = line[1]
+        custom.computeMasterCPUMin, err = strconv.Atoi(line[1])
+        check(err)
       case 19:
-        custom.computeMasterCPUMax = line[1]
+        custom.computeMasterMemMax, err = strconv.Atoi(line[1])
+        check(err)
       case 20:
-        custom.computeMasterCPUMin = line[1]
+        custom.computeMasterMemMin, err = strconv.Atoi(line[1])
+        check(err)
       case 21:
-        custom.computeMasterMemMax = line[1]
+        custom.computeWorkerCPUMax, err = strconv.Atoi(line[1])
+        check(err)
       case 22:
-        custom.computeMasterMemMin = line[1]
+        custom.computeWorkerCPUMin, err = strconv.Atoi(line[1])
+        check(err)
       case 23:
-        custom.computeWorkerCPUMax = line[1]
+        custom.computeWorkerMemMax, err = strconv.Atoi(line[1])
+        check(err)
       case 24:
-        custom.computeWorkerCPUMin = line[1]
+        custom.computeWorkerMemMin, err = strconv.Atoi(line[1])
+        check(err)
       case 25:
-        custom.computeWorkerMemMax = line[1]
-      case 26:
-        custom.computeWorkerMemMin = line[1]
-      case 27:
         custom.database = line[1]
-      case 28:
+      case 26:
+        i = i - 1
         if(line[1] != "None" && line[0] == "OpenPort"){
-          custom.databasePorts = append(custom.databasePorts, line[1])
+          a, err = strconv.Atoi(line[1])
+          check(err)
+          custom.databasePorts = append(custom.databasePorts, a)
+        }
+        if(line[0] != "OpenPort") {
+          custom.databaseCopies, err = strconv.Atoi(line[1])
+          check(err)
+          i = i + 1
+        }
+      case 27:
+        custom.databaseSize, err = strconv.Atoi(line[1])
+        check(err)
+      case 28:
+        custom.EC2num, err = strconv.Atoi(line[1])
+        check(err)
+      case 29:
+        custom.EC2type = line[1]
+      case 30:
+        if(line[1] != "None" && line[0] == "OpenPort"){
+          a, err = strconv.Atoi(line[1])
+          check(err)
+          custom.EC2Ports = append(custom.EC2Ports, a)
           i = i - 1
         }
-      case 29:
-        custom.databaseCopies = line[1]
-      case 30:
-        custom.databaseSize = line[1]
+    }
   }
 }
