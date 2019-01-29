@@ -1,94 +1,65 @@
 provider "http" {}
 provider "aws" {
-  region = "${var.region}"
+  region = "us-west-2"#TD
 }
-provider "kubernetes" {
-  host = "${module.eks_cluster.eks_cluster_endpoint}"
-  cluster_ca_certificate = "${base64decode(module.eks_cluster.eks_cluster_cert_auth_0data)}"
-  token = "${data.external.aws-iam-authenticator.result.token}"
-  load_config_file = false
-}
-data "aws_region" "current" {}
-data "aws_availability_zones" "available" {}
-data "http" "workstation-external-ip" {
-  url = "TODO"
-}
-data "external" "aws-iam-authenticator" {
-  program = ["bash", "${path.root}/data/authenticator.sh"]
-  query {
-    cluster_name = "${terraform.workspace}-${var.k8s_cluster}"
-  }
-}
-locals {
-  workstation-external-cidr = "${chomp(data.http.workstation-external-ip.body)}/32"
-}
-module "iam_global" {
-  source = "./global/iam/"
-  k8s_cluster = "${var.k8s_cluster}"
-}
+
 module "vpc_network" {
   source = "./modules/network/vpc/"
-  k8s_cluster = "${var.k8s_cluster}"
-}
-module "igw_network" {
+ }
+module "internet_gateway" {
   source = "./modules/network/igw/"
-  k8s_cluster = "${var.k8s_cluster}"
   vpc_id = "${module.vpc_network.vpc_id}"
 }
 module "security_groups" {
-  source = "./modules/network/security_group/"
-  k8s_cluster = "${var.k8s_cluster}"
+  source = "./modules/network/security_groups/"
   vpc_id = "${module.vpc_network.vpc_id}"
-  workstation-external-cidr = "${local.workstation-external-cidr}"
 }
-module "route_table_network" {
-  source = "./modules/network/route_table/"
-  k8s_cluster = "${var.k8s_cluster}"
+module "subnets" {
+  source = "./modules/network/subnets/"
   vpc_id = "${module.vpc_network.vpc_id}"
-  igw_id = "${module.igw_network.igw_id}"
 }
-module "launch_configuration" {
-  source = "./modules/severs/launch_configuration/"
-  aws_region = "${var.aws_region}"
-  k8s_cluster = "${var.k8s_cluster}"
-  aws_key_pair_id = "${module.iam_global.aws_key_pair_id}"
-  security_group_id = "${module.security_groups.node_sg_id}"
-  node_instance_type = "${var.node_size}"
-  node_iam_instance_profile_id = "${module.iam_global.node_iam_instance_profile_id}"
-  eks_cluster_cert_auth_0data = "${module.eks_cluster.eks_cluster_cert_auth_0data}"
-  eks_cluster_endpoint = "${module.eks_cluster.eks_cluster_endpoint}"
-}
-module "eks_cluster" {
-  source = "./modules/eks/cluster"
-  k8s_cluster = "${var.k8s_cluster}"
-  cluster_iam_role_name = "${module.iam_global.iam_role_master_name}"
-  cluster_iam_role_arn = "${module.iam_global.iam_role_master_arn}"
+module "bastion" {
+  source = "./modules/bastion/"
+  public_subnet_id = "${module.subnets.public_subnet_ids[0]}"
+  sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
+  key_name = "${var.key_name}"
   vpc_id = "${module.vpc_network.vpc_id}"
-  vpc_cidr_prefix = "${module.vpc_network.vpc_cidr_prefix}"
-  cluster_sg_id = "${module.security_groups.cluster_sg_id}"
-  public_rt_id = "$Pmodule.route_table_network.public_rt_id}"
-  node_launch_config_id = "${module.launch_configuration.node_launch_config_id}"
+  sg-bastion_id = "${module.security_groups.sg-BH_Cluster_Open}"
 }
-module "k8s_config_map" {
-  source = "./modules/k8s/config_map"
-  node_iam_role_arn = "${module.iam_global.iam_role_node_arn}"
+  
+module "route_tables" {
+  source = "./modules/network/route_tables/"
+  vpc_id = "${module.vpc_network.vpc_id}"
+  igw_id = "${module.internet_gateway.igw_id}"
+  Public_Subnet_id_list = "${module.subnets.public_subnet_ids}"
+  Private_Subnet_id_list = "${module.subnets.private_subnet_ids}"
 }
-module "k8s_c7a" {#TODO: Must Be generalized
-  source = "./modules/k8s/c7a"
-  k8s_cluster = "${var.k8s_cluster}"
-  eks_cluster_cert_auth_0data = "${module.eks_cluster.eks_cluster_cert_auth_0data}"
-  eks_cluster_endpoint = "${module.eks_cluster.eks_cluster_endpoint}"
+module "webservers" {
+  source = "./modules/webservers/"
+  vpc_id = "${module.vpc_network.vpc_id}"
+  public_subnet_id = "${module.subnets.public_subnet_ids[0]}"
+  private_subnet_id = "${module.subnets.private_subnet_ids[0]}"
+  sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
+  sg-http_id = "${module.security_groups.sg-http_id}" 
+  sg-https_id = "${module.security_groups.sg-https_id}" 
+  github_link = "${var.github_link}"
+  aws_key_name = "${var.key_name}"
+  aws_key_path = "${var.key_path}"
 }
-module "k8s_spark" {#TODO: Must be generalized
-  source = "./modules/k8s/spark"
-  spark_user_name = "symph"
-  access_key = "${var.key_name}"
-  secret_key = "${var.secret_key}"
-  c7a-ips_id = "${module.k8s_c7a.c7a-ips_id}"
-  s3_bucket_url = "${var.s3.bucket_url}"
-}
-module "k8s_njs" {
-  source = "./modules/k8s/nodejs"
-  c7a-ips_id = "${module.k8s_c7a.c7a-ips_id}"
-#  gmaps_api_key
+#module "s3" {
+#  source = "./modules/s3/"
+#}
+module "k8s" {
+  source = "./modules/k8s/"
+  vpc_id = "${module.vpc_network.vpc_id}"
+  EKS_Subnet_list = "${module.subnets.public_subnet_ids}"
+#  private_subnet_id = "${module.subnets.private_subnet_ids}"
+  sg-BH_Cluster_Open_id = "${module.security_groups.sg-BH_Cluster_Open}"
+  sg-node_out_id = "${module.security_groups.sg-node_out}"
+  ### Where the tech params will be passed in
+  num_EKS_nodes_desired = "${var.EKS_nodes}"
+  num_EKS_nodes_max = "${var.EKS_nodes}"
+  num_EKS_nodes_min = 1
+  EKS_name = "Terraform-EKS"
+  EKS_instance_type = "${var.Node_type}"
 }
