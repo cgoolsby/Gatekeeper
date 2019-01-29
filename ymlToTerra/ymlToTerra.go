@@ -204,8 +204,11 @@ func main() {
     for i := 0; i < v.NumField(); i++ {
       f := v.Field(i)
       fmt.Printf("%d: %s %s = %v\n", i,
-typeOfV.Field(i).Name, f.Type(), f.CanInterface())
+        typeOfV.Field(i).Name, f.Type(), v.FieldByName(typeOfV.Field(i).Name))
     }
+
 }
+
+
 
 
