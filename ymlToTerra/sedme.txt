@@ -1,0 +1,31 @@
+variable "IngestionMaster" {
+  default = 0
+}
+variable "IngestionWorker" {
+  default = 0
+}
+variable "IngestionMasterCPUMax" {
+  default = 0
+}
+variable "IngestionMasterCPUMin" {
+  default = 0
+}
+variable "IngestionMasterMemMax" {
+  default = 0
+}
+variable "IngestionMasterMemMin" {
+  default = 0
+}
+variable "IngestionWorkerCPUMax" {
+  default = 0
+}
+variable "IngestionWorkerCPUMin" {
+  default = 0
+}
+variable "IngestionWorkerMemMax" {
+  default = 0
+}
+variable "IngestionWorkerMemMin" {
+  default = 0
+}
+
