@@ -6,6 +6,7 @@ import (
   "os"
   "strings"
   "strconv"
+  "reflect"
 )
 
 var fileName = "test.yml"
@@ -77,7 +78,7 @@ func main() {
     var line []string
     line = strings.Split(scanner.Text(), ": ")
     i = i + 1
-    fmt.Println(i, line)
+//    fmt.Println(i, line)
     switch i {
       case 1:
         custom.kubeNodeType = line[1]
@@ -197,4 +198,14 @@ func main() {
         }
     }
   }
+ //begin taking struct values and making terraform.tfvars file
+    v := reflect.ValueOf(&custom).Elem()
+    typeOfV := v.Type()
+    for i := 0; i < v.NumField(); i++ {
+      f := v.Field(i)
+      fmt.Printf("%d: %s %s = %v\n", i,
+typeOfV.Field(i).Name, f.Type(), f.CanInterface())
+    }
 }
+
+
