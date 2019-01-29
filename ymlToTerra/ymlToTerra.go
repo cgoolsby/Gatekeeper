@@ -61,6 +61,20 @@ type setup struct {
 
 
 
+func writeVariable(fileNameOut, varName, defaultVal string) {
+  write := ("variable \""+ varName + "\" {default = \"" + defaultVal + "\"}")
+  f, err := os.OpenFile(fileNameOut, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+  if err != nil {
+    check(err)
+  }
+  if _, err := f.Write([]byte(write)); err != nil {
+    check(err)
+  }
+ if err := f.Close(); err != nil {
+   check(err)
+ }
+}
+
 
 func main() {
   fmt.Println("Placeholder")
@@ -205,6 +219,8 @@ func main() {
       f := v.Field(i)
       fmt.Printf("%d: %s %s = %v\n", i,
         typeOfV.Field(i).Name, f.Type(), v.FieldByName(typeOfV.Field(i).Name))
+      fmt.Println(v.FieldByName(typeOfV.Field(i).Name).Type())
+//      writeVariable("Output.txt", typeOfV.Field(i).Name, v.FieldByName(typeOfV.Field(i).Name))
     }
 
 }
