@@ -20,39 +20,39 @@ func check(e error) {
 
 type setup struct {
 
-  kubeNodeType string
-  kubeNodes int
+  KubeNodeType string
+  KubeNodes int
 
-  ingestion string
-  ingestionPorts []int
-  ingestionMaster int
-  ingestionWorker int
-  ingestionMasterCPUMax int
-  ingestionMasterCPUMin int
-  ingestionMasterMemMax int
-  ingestionMasterMemMin int
-  ingestionWorkerCPUMax int
-  ingestionWorkerCPUMin int
-  ingestionWorkerMemMax int
-  ingestionWorkerMemMin int
+  Ingestion string
+  IngestionPorts []int
+  IngestionMaster int
+  IngestionWorker int
+  IngestionMasterCPUMax int
+  IngestionMasterCPUMin int
+  IngestionMasterMemMax int
+  IngestionMasterMemMin int
+  IngestionWorkerCPUMax int
+  IngestionWorkerCPUMin int
+  IngestionWorkerMemMax int
+  IngestionWorkerMemMin int
 
-  compute string
-  computePorts []int
-  computeMaster int
-  computeWorker int
-  computeMasterCPUMax int
-  computeMasterCPUMin int
-  computeMasterMemMax int
-  computeMasterMemMin int
-  computeWorkerCPUMax int
-  computeWorkerCPUMin int
-  computeWorkerMemMax int
-  computeWorkerMemMin int
+  Compute string
+  ComputePorts []int
+  ComputeMaster int
+  ComputeWorker int
+  ComputeMasterCPUMax int
+  ComputeMasterCPUMin int
+  ComputeMasterMemMax int
+  ComputeMasterMemMin int
+  ComputeWorkerCPUMax int
+  ComputeWorkerCPUMin int
+  ComputeWorkerMemMax int
+  ComputeWorkerMemMin int
 
-  database string
-  databasePorts []int
-  databaseCopies int
-  databaseSize int
+  Database string
+  DatabasePorts []int
+  DatabaseCopies int
+  DatabaseSize int
 
   EC2num int
   EC2type string
@@ -61,8 +61,9 @@ type setup struct {
 
 
 
-func writeVariable(fileNameOut, varName, defaultVal string) {
-  write := ("variable \""+ varName + "\" {default = \"" + defaultVal + "\"}")
+func writeVariable(fileNameOut, varName string, defaultVal interface {}) {
+  //write := ("variable \""+ varName + "\" {default = \"" + defaultVal + "\"}")
+  write := fmt.Sprintf("variable \"%v\" {default = \"%v\"}\n", varName, defaultVal)
   f, err := os.OpenFile(fileNameOut, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   if err != nil {
     check(err)
@@ -95,108 +96,108 @@ func main() {
 //    fmt.Println(i, line)
     switch i {
       case 1:
-        custom.kubeNodeType = line[1]
+        custom.KubeNodeType = line[1]
       case 2:
-        custom.kubeNodes, err = strconv.Atoi(line[1])
+        custom.KubeNodes, err = strconv.Atoi(line[1])
         check(err)
       case 3:
-        custom.ingestion = line[1]
+        custom.Ingestion = line[1]
       case 4:
         i = i - 1
         if(line[1] != "None" && line[0] == "OpenPort"){
           a, err = strconv.Atoi(line[1])
           check(err)
-          custom.ingestionPorts = append(custom.ingestionPorts, a)
+          custom.IngestionPorts = append(custom.IngestionPorts, a)
         }
         if(line[0] != "OpenPort") {
-          custom.ingestionMaster, err = strconv.Atoi(line[1])
+          custom.IngestionMaster, err = strconv.Atoi(line[1])
           check(err)
           i = i + 1
         }
       case 5:
-        custom.ingestionWorker, err = strconv.Atoi(line[1])
+        custom.IngestionWorker, err = strconv.Atoi(line[1])
         check(err)
       case 6:
-        custom.ingestionMasterCPUMax, err = strconv.Atoi(line[1])
+        custom.IngestionMasterCPUMax, err = strconv.Atoi(line[1])
         check(err)
       case 7:
-        custom.ingestionMasterCPUMin, err = strconv.Atoi(line[1])
+        custom.IngestionMasterCPUMin, err = strconv.Atoi(line[1])
         check(err)
       case 8:
-        custom.ingestionMasterMemMax, err = strconv.Atoi(line[1])
+        custom.IngestionMasterMemMax, err = strconv.Atoi(line[1])
         check(err)
       case 9:
-        custom.ingestionMasterMemMin, err = strconv.Atoi(line[1])
+        custom.IngestionMasterMemMin, err = strconv.Atoi(line[1])
         check(err)
       case 10:
-        custom.ingestionWorkerCPUMax, err = strconv.Atoi(line[1])
+        custom.IngestionWorkerCPUMax, err = strconv.Atoi(line[1])
         check(err)
       case 11:
-        custom.ingestionWorkerCPUMin, err = strconv.Atoi(line[1])
+        custom.IngestionWorkerCPUMin, err = strconv.Atoi(line[1])
         check(err)
       case 12:
-        custom.ingestionWorkerMemMax, err = strconv.Atoi(line[1])
+        custom.IngestionWorkerMemMax, err = strconv.Atoi(line[1])
         check(err)
       case 13:
-        custom.ingestionWorkerMemMin, err = strconv.Atoi(line[1])
+        custom.IngestionWorkerMemMin, err = strconv.Atoi(line[1])
         check(err)
       case 14:
-        custom.compute = line[1]
+        custom.Compute = line[1]
       case 15:
         i = i - 1
         if(line[1] != "None" && line[0] == "OpenPort"){
           a, err = strconv.Atoi(line[1])
           check(err)
-          custom.computePorts = append(custom.computePorts, a)
+          custom.ComputePorts = append(custom.ComputePorts, a)
         }
         if(line[0] != "OpenPort") {
-          custom.computeMaster, err = strconv.Atoi(line[1])
+          custom.ComputeMaster, err = strconv.Atoi(line[1])
           check(err)
           i = i + 1
         }
       case 16:
-        custom.computeWorker, err = strconv.Atoi(line[1])
+        custom.ComputeWorker, err = strconv.Atoi(line[1])
         check(err)
       case 17:
-        custom.computeMasterCPUMax, err = strconv.Atoi(line[1])
+        custom.ComputeMasterCPUMax, err = strconv.Atoi(line[1])
         check(err)
       case 18:
-        custom.computeMasterCPUMin, err = strconv.Atoi(line[1])
+        custom.ComputeMasterCPUMin, err = strconv.Atoi(line[1])
         check(err)
       case 19:
-        custom.computeMasterMemMax, err = strconv.Atoi(line[1])
+        custom.ComputeMasterMemMax, err = strconv.Atoi(line[1])
         check(err)
       case 20:
-        custom.computeMasterMemMin, err = strconv.Atoi(line[1])
+        custom.ComputeMasterMemMin, err = strconv.Atoi(line[1])
         check(err)
       case 21:
-        custom.computeWorkerCPUMax, err = strconv.Atoi(line[1])
+        custom.ComputeWorkerCPUMax, err = strconv.Atoi(line[1])
         check(err)
       case 22:
-        custom.computeWorkerCPUMin, err = strconv.Atoi(line[1])
+        custom.ComputeWorkerCPUMin, err = strconv.Atoi(line[1])
         check(err)
       case 23:
-        custom.computeWorkerMemMax, err = strconv.Atoi(line[1])
+        custom.ComputeWorkerMemMax, err = strconv.Atoi(line[1])
         check(err)
       case 24:
-        custom.computeWorkerMemMin, err = strconv.Atoi(line[1])
+        custom.ComputeWorkerMemMin, err = strconv.Atoi(line[1])
         check(err)
       case 25:
-        custom.database = line[1]
+        custom.Database = line[1]
       case 26:
         i = i - 1
         if(line[1] != "None" && line[0] == "OpenPort"){
           a, err = strconv.Atoi(line[1])
           check(err)
-          custom.databasePorts = append(custom.databasePorts, a)
+          custom.DatabasePorts = append(custom.DatabasePorts, a)
         }
         if(line[0] != "OpenPort") {
-          custom.databaseCopies, err = strconv.Atoi(line[1])
+          custom.DatabaseCopies, err = strconv.Atoi(line[1])
           check(err)
           i = i + 1
         }
       case 27:
-        custom.databaseSize, err = strconv.Atoi(line[1])
+        custom.DatabaseSize, err = strconv.Atoi(line[1])
         check(err)
       case 28:
         custom.EC2num, err = strconv.Atoi(line[1])
@@ -218,9 +219,11 @@ func main() {
     for i := 0; i < v.NumField(); i++ {
       f := v.Field(i)
       fmt.Printf("%d: %s %s = %v\n", i,
-        typeOfV.Field(i).Name, f.Type(), v.FieldByName(typeOfV.Field(i).Name))
+        typeOfV.Field(i).Name, f.Type(), f.Interface())
+        //typeOfV.Field(i).Name, f.Type(), v.FieldByName(typeOfV.Field(i).Name))
       fmt.Println(v.FieldByName(typeOfV.Field(i).Name).Type())
-//      writeVariable("Output.txt", typeOfV.Field(i).Name, v.FieldByName(typeOfV.Field(i).Name))
+      fmt.Println(f.CanInterface())
+      writeVariable("Output.txt", typeOfV.Field(i).Name, f.Interface())
     }
 
 }
