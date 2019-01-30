@@ -11,7 +11,7 @@ import (
 )
 
 var fileName = "test.yml"
-
+var outputFile = "Output.txt"
 
 func check(e error) {
     if e != nil {
@@ -219,14 +219,17 @@ func main() {
     typeOfV := v.Type()
     for i := 0; i < v.NumField(); i++ {
       f := v.Field(i)
-      fmt.Printf("%d: %s %s = %v\n", i,
-        typeOfV.Field(i).Name, f.Type(), f.Interface())
+     // fmt.Printf("%d: %s %s = %v\n", i,
+      //  typeOfV.Field(i).Name, f.Type(), f.Interface())
         //typeOfV.Field(i).Name, f.Type(), v.FieldByName(typeOfV.Field(i).Name))
-      fmt.Println(v.FieldByName(typeOfV.Field(i).Name).Type())
-      fmt.Println(f.CanInterface())
-      writeVariable("Output.txt", typeOfV.Field(i).Name, f.Interface())
+        //      fmt.Println(v.FieldByName(typeOfV.Field(i).Name).Type())
+        // fmt.Println(f.CanInterface())
+      writeVariable(outputFile, typeOfV.Field(i).Name, f.Interface())
     }
-
+	cmd := exec.Command("bash", "sedBrackets.sh", outputFile)
+  err = cmd.Run()
+  cmd = exec.Command("cp", outputFile, "../experimental/variable_override.tf.HOLDER")
+  err = cmd.Run()
 }
 
 
