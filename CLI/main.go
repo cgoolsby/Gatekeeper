@@ -206,7 +206,9 @@ func main() {
   number = readNumber()
   writeYml(fileName, "databaseNumber", strconv.Itoa(number))
   //database size
-  writeYml(fileName, "databaseSize", "40")
+  fmt.Println("What size in GB would you like each database to be?")
+  number = readNumber()
+  writeYml(fileName, "databaseSize", strconv.Itoa(number))
 }else{
   skipPorts(name)
   writeYml(fileName, "databaseNumber", "0")
