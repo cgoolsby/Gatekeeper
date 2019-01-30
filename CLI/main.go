@@ -6,12 +6,13 @@ import (
   "strings"
   "strconv"
   "bufio"
+  "os/exec"
 )
 
-var fileName = "test.yml"
+var fileName = "test2.yml"
 
 // give user a list of options, then write that option to the yml
-func selectOption(name string, options []string) {
+func selectOption(name string, options []string) (int){
   fmt.Println("Which ", name, "would you like?")
   for i, j := range options {
     fmt.Println(i, ") ", j)
@@ -21,6 +22,8 @@ func selectOption(name string, options []string) {
   var selection = options[input]
   fmt.Println("You selected : ", selection)
   writeYml(fileName, name, selection)
+  if(input==0){return 0
+  }else{return 1}
 }
 func check(e error) {
     if e != nil {
@@ -90,6 +93,9 @@ func portsOpen(name string) {
     }
   }else{writeYml(fileName, "OpenPort", "None")}
 }
+func skipPorts(name string) {
+  writeYml(fileName, "OpenPort", "None")
+}
 // write two options seperated by a colon
 func writeYml(fileName, opt1, opt2 string) {
   write := (opt1 + ": " + opt2 + "\n")
@@ -124,6 +130,12 @@ func CPU_Mem_Max_Min(name string) {
     writeYml(fileName, j, strconv.Itoa(input))
   }
 }
+func skipCPU_Mem(name string) {
+  options := []string{"MaximumCPU", "MinimumCPU", "MaximumMemory", "MinimumMemory"}
+  for _, j := range options {
+    writeYml(fileName, j, "0")
+  }
+}
 func main() {
   //Kubernetes Cluster Parameters
   //kubeNodeType
@@ -139,7 +151,8 @@ func main() {
   //ingestion
   IngestionSystem := []string{"None", "kafka", "pulsar", "rabbitMQ"}
   name = "IngestionSystem"
-  selectOption(name, IngestionSystem)
+  c := selectOption(name, IngestionSystem)
+  if(c!=0){
   //ingestionPorts
   portsOpen(name)
   //numberofMasters
@@ -150,11 +163,19 @@ func main() {
   CPU_Mem_Max_Min("IngestionMaster")
   //ingestionWorkerMin/Max
   CPU_Mem_Max_Min("IngestionWorker")
+}else{
+  writeYml(fileName, "Master", "0")
+  writeYml(fileName, "Worker", "0")
+  skipPorts(name)
+  skipCPU_Mem(name)
+  skipCPU_Mem(name)
+}
   //Compute Cluster
   //compute
   ComputeCluster := []string{"None", "spark", "flink", "presto"}
   name = "ComputeCluster"
-  selectOption(name, ComputeCluster)
+  c =selectOption(name, ComputeCluster)
+  if(c!=0){
   //computePorts
   portsOpen(name)
   //numberofMasters
@@ -165,11 +186,19 @@ func main() {
   CPU_Mem_Max_Min("ComputeClusterMaster")
   //computeWorkerMin/Max
   CPU_Mem_Max_Min("ComputeClusterWorker")
+}else{
+  writeYml(fileName, "Master", "0")
+  writeYml(fileName, "Worker", "0")
+  skipPorts(name)
+  skipCPU_Mem(name)
+  skipCPU_Mem(name)
+}
   //Database
-  DataBase := []string{"None", "mySQL", "postgres", "cassandra", "mongoDB"}
-  name = "SparkDatabase"
+  DataBase := []string{"None", "mySQL", "postgres", "postGIS", "cassandra", "mongoDB"}
+  name = "KubernetesDatabase"
   //database
-  selectOption(name, DataBase)
+  c = selectOption(name, DataBase)
+  if(c!=0){
   //database ports
   portsOpen(name)
   //database number
@@ -178,15 +207,28 @@ func main() {
   writeYml(fileName, "databaseNumber", strconv.Itoa(number))
   //database size
   writeYml(fileName, "databaseSize", "40")
+}else{
+  skipPorts(name)
+  writeYml(fileName, "databaseNumber", "0")
+  writeYml(fileName, "databaseSize", "0")
+}
 
   //Extra EC2 Instances
   
   EC2 := []string{"0", "1", "2", "3", "4", "5"}
   name = "ExtraEC2"
   //EC2num
-  selectOption(name, EC2)
+  c =selectOption(name, EC2)
+  if(c!=0){
   //EC2type
   selectOption(name, InstanceTypes)
   //EC2Ports
   portsOpen(name)
+}else{
+  writeYml(fileName, name, "None")
+  skipPorts(name)
+}
+
+  cmd := exec.Command("cp", fileName, "../ymlToTerra/")
+  _ = cmd.Run()
 }
