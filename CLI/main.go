@@ -137,7 +137,7 @@ func main() {
 
   //Ingestion System
   //ingestion
-  IngestionSystem := []string{"None", "Zookeeper.Kafka", "Pulsar"}
+  IngestionSystem := []string{"None", "kafka", "pulsar", "rabbitMQ"}
   name = "IngestionSystem"
   selectOption(name, IngestionSystem)
   //ingestionPorts
@@ -152,7 +152,7 @@ func main() {
   CPU_Mem_Max_Min("IngestionWorker")
   //Compute Cluster
   //compute
-  ComputeCluster := []string{"None", "Hadoop.Spark", "Flink", "Presto", "Pelican"}
+  ComputeCluster := []string{"None", "spark", "flink", "presto"}
   name = "ComputeCluster"
   selectOption(name, ComputeCluster)
   //computePorts
@@ -166,7 +166,7 @@ func main() {
   //computeWorkerMin/Max
   CPU_Mem_Max_Min("ComputeClusterWorker")
   //Database
-  DataBase := []string{"None", "mySQL", "Postgres", "Cassandra", "MongoDB"}
+  DataBase := []string{"None", "mySQL", "postgres", "cassandra", "mongoDB"}
   name = "SparkDatabase"
   //database
   selectOption(name, DataBase)
