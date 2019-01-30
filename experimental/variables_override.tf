@@ -31,3 +31,7 @@ variable "DatabaseSize" {default = "40"}
 variable "EC2num" {default = "1"}
 variable "EC2type" {default = "t2.micro"}
 variable "EC2Ports" {default = "]"}
+variable "database_exists" {default = 1}
+variable "compute_exists" {default = 1}
+variable "ingestion_exists" {default = 1}
+
