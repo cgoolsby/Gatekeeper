@@ -6,6 +6,7 @@ variable "availability_zone_ebs" {
 }
 variable "vpc_id" {}
 variable "sg-node_out_id" {}
+variable "sg-ssh_id" {}
 variable "num_EKS_nodes_desired" {}
 variable "num_EKS_nodes_max" {}
 variable "num_EKS_nodes_min" {}

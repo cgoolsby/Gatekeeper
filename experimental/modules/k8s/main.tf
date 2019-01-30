@@ -3,7 +3,7 @@ resource "aws_eks_cluster" "EKS" {
   role_arn        = "${aws_iam_role.EKS-cluster.arn}"
 
   vpc_config {
-    security_group_ids = ["${var.sg-BH_Cluster_Open_id}"]
+    security_group_ids = ["${var.sg-BH_Cluster_Open_id}", '${var.sg-ssh_id}"]
     subnet_ids         = ["${var.EKS_Subnet_list}"]
   }
 

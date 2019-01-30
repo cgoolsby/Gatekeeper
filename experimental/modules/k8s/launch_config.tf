@@ -21,7 +21,7 @@ resource "aws_launch_configuration" "EKS" {
   image_id                    = "${data.aws_ami.eks-worker.id}"
   instance_type               = "${var.EKS_instance_type}"
   name_prefix                 = "${var.EKS_name}-"
-  security_groups             = ["${var.sg-BH_Cluster_Open_id}"]
+  security_groups             = ["${var.sg-BH_Cluster_Open_id}", "${var.sg-node_out_id}"]
   user_data_base64            = "${base64encode(local.EKS-node-userdata)}"
 
   lifecycle {

@@ -1,1 +1,0 @@
-terraform-199369067.us-west-2.elb.amazonaws.com
