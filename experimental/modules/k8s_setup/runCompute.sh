@@ -13,7 +13,7 @@ while [ $next != "PortEnd" ]
 do
   ports[${#ports[@]}]=$next
   next=$1; shift
-  echo "got a port $next"
+#  echo "got a port $next"
 done
 master=$1; shift
 worker=$1; shift
@@ -26,7 +26,6 @@ workerCPUMin=$1; shift
 workerMemMax=$1; shift
 workerMemMin=$1; shift
 
-cp ingestion/$name/*.yml .
 sed -i 's/MASTER/$master/g' *.yml
 sed -i 's/WORKER/$worker/g' *.yml
 sed -i 's/MASTERCPUMAX/$masterCPUMax/g' *.yml
@@ -37,7 +36,6 @@ sed -i 's/WORKERCPUMAX/$workerCPUMax/g' *.yml
 sed -i 's/WORKERCPUMIN/$workerCPUMin/g' *.yml
 sed -i 's/WORKERMEMMAX/$workerMemMax/g' *.yml
 sed -i 's/WORKERMEMMIN/$workerMemMin/g' *.yml
-for i in `ls *.yml`; do kubectl create -f $i; done
-rm -f *.yml
+for i in `ls compute/$name/*.yml`; do kubectl create -f $i; done
 #Port Forwarding Logic here? i.e. for loop through the array, open ports.  Seems difficult to target each instance after creation?
 

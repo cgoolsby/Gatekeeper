@@ -54,4 +54,6 @@ CONFIGMAPAWSAUTH
 output "config_map_aws_auth" {
   value = "${local.config_map_aws_auth}"
 }
-
+output "k8s_finished" {
+  value = "${aws_autoscaling_group.EKS.id}"
+}

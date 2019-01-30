@@ -1,7 +1,7 @@
 resource "null_resource" "createDatabase" {
   count = "${var.database_exists}"
   triggers = {
-    discard = "${uuid()}"
+    discard = "${var.k8s_trigger}"
   }
   provisioner "local-exec" {
     working_dir = "${path.module}"
