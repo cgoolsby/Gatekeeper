@@ -65,7 +65,7 @@ module "k8s" {
 }
 module "k8s_setup" {
   source = "./modules/k8s_setup/"
-  k8s_trigger = "${module.k8s.config_map_aws_auth}"
+  k8s_trigger = "${module.k8s.k8s_finished}"
   KubeNodeType = "${var.KubeNodeType}"
   KubeNodes = "${var.KubeNodes}"
   Ingestion = "${var.Ingestion}"
@@ -96,6 +96,9 @@ module "k8s_setup" {
   DatabasePorts = "${var.DatabasePorts}"
   DatabaseCopies = "${var.DatabaseCopies}"
   DatabaseSize = "${var.DatabaseSize}"
+  database_exists = "${var.database_exists}"
+  compute_exists = "${var.compute_exists}"
+  ingestion_exists = "${var.ingestion_exists}"
 }
 module "extraEC2" {
   source = "./modules/extraEC2/"
