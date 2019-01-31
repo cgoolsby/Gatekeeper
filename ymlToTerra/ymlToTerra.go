@@ -10,7 +10,7 @@ import (
   "os/exec"
 )
 
-var fileName = "test.yml"
+var fileName = "test2.yml"
 var outputFile = "Output.txt"
 
 func check(e error) {

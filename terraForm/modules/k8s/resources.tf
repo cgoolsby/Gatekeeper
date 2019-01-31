@@ -36,4 +36,3 @@ resource "aws_iam_instance_profile" "EKS-node" {
   name = "${var.EKS_name}-iam_profile"
   role = "${aws_iam_role.EKS-node.name}"
 }
-

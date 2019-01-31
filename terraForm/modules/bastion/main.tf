@@ -19,10 +19,10 @@ resource "aws_instance" "bastion" {
   instance_type = "t2.micro"
   key_name = "${var.key_name}"
   monitoring = true
-  vpc_security_group_ids = ["${aws_security_group.bastion-sg.id}"]
+  vpc_security_group_ids = ["${var.sg-bastion_id}", "${var.sg-ssh_id}"]
   associate_public_ip_address = true
   subnet_id = "${var.public_subnet_id}"
   tags {
-    Name = "${terraform.workspace}-bastion}"
+    Name = "${terraform.workspace}-bastion"
   }
 }
