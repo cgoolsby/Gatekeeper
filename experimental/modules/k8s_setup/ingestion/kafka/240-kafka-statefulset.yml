@@ -71,9 +71,9 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-        #volumeMounts:
-        #- mountPath: /opt/kafka/data
-        #  name: datadir
+        volumeMounts:
+        - mountPath: /opt/kafka/data
+          name: datadir
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -81,13 +81,13 @@ spec:
       terminationGracePeriodSeconds: 60
   updateStrategy:
     type: OnDelete
-#  volumeClaimTemplates:
-#  - metadata:
-#      name: datadir
-#    spec:
-#      accessModes:
-#      - ReadWriteOnce
-#      resources:
-#        requests:
-#          storage: 1Gi
-#      storageClassName: rook-block
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: rook-block
