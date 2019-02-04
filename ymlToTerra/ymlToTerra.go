@@ -226,9 +226,13 @@ func main() {
         // fmt.Println(f.CanInterface())
       writeVariable(outputFile, typeOfV.Field(i).Name, f.Interface())
     }
-	cmd := exec.Command("bash", "sedBrackets.sh", outputFile)
+  if(custom.Ingestion != "None"){writeVariable(outputFile, "ingestion_exists", "1")}
+	if(custom.Database != "None"){writeVariable(outputFile, "database_exists", "1")}
+	if(custom.Compute != "None"){writeVariable(outputFile, "compute_exists", "1")}
+
+  cmd := exec.Command("bash", "sedBrackets.sh", outputFile)
   err = cmd.Run()
-  cmd = exec.Command("cp", outputFile, "../experimental/variable_override.tf.HOLDER")
+  cmd = exec.Command("cp", outputFile, "../experimental/variables_override.tf")
   err = cmd.Run()
 }
 
