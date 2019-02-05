@@ -13,14 +13,29 @@ AWS Account with EKS permissions.<br/>
 Everything should be run from a bash shell.<br/>
 
 Usage:
+```
 git clone https://github.com/cgoolsby/gateKeeper<br/>
+```
+```
 cd gateKeeper<br/>
+```
+```
 go run ./main2.go<br/>
+```
+
 This produces a variables_override.tf in your main directory.  In case you want to skip to this step in the future.<br/>
+```
 cp variables_override.tf terraForm/<br/>
+```
+```
 cd terraForm<br/>
+```
+```
 terraform init<br/>
+```
+```
 terraform apply<br/>
+```
 type yes and go get a coffee.<br/>
 Voila, you have the infrastructure of your pipeline.<br/><br/><br/>
 Some Basic Commands to help you get started<br/><br/>
