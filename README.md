@@ -15,9 +15,9 @@ Everything should be run from a bash shell.
 Usage:
 git clone https://github.com/cgoolsby/gateKeeper
 cd gateKeeper
-go run CLI/main.go
-go run ymlToTerra/ymlToTerra.go
-This produces a variables_override.tf in your terraForm directory.  In case you want to skip to this step in the future.
+go run ./main2.go
+This produces a variables_override.tf in your main directory.  In case you want to skip to this step in the future.
+cp variables_override.tf terraForm/
 cd terraForm
 terraform init
 terraform apply
@@ -28,3 +28,6 @@ Voila, you have the infrastructure of your pipeline.
 
 In general, editing the yml files of your respective technologies should be straightforward.  I HIGHLY recommend making a backup of each file before you begin.
 
+TODOs:
+Implement sed feature to control # of master/worker nodes, and cpumin/maxing
+Implement opening additional ports
