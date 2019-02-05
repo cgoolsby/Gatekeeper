@@ -4,13 +4,13 @@ Gatekeeper is an Open Source platform for deploying various Data Engineering too
 It supports ease of use by giving the user a CLI which guides them through enabling kubernetes pods of their chosen technologies
 
 
-Requirements
-Terraform : https://learn.hashicorp.com/terraform/getting-started/install.html
-AWS-CLI   : https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
-AWS-IAM   : https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
-AWS Account with EKS permissions.
-Go        : https://golang.org/doc/install/source
-Everything should be run from a bash shell.
+Requirements<br/>
+Terraform : https://learn.hashicorp.com/terraform/getting-started/install.html<br/>
+AWS-CLI   : https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html<br/>
+AWS-IAM   : https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html<br/>
+Go        : https://golang.org/doc/install/source<br/>
+AWS Account with EKS permissions.<br/>
+Everything should be run from a bash shell.<br/>
 
 Usage:
 git clone https://github.com/cgoolsby/gateKeeper<br/>
