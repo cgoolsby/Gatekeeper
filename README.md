@@ -59,5 +59,7 @@ Currently only native Kubernetes Monitoring is supported with plans to support P
 bash terraForm/Dashboard.sh
 ```
 TODOs:
-Implement sed feature to control # of master/worker nodes, and cpumin/maxing
-Implement opening additional ports
+Implement sed feature to control # of master/worker nodes, and cpumin/maxing<br/>
+Implement opening additional ports as per user specifications<br/>
+Implement Web Server Toggle <br/>
+Implement Prometheus Monitoring Toggle (Per Tech? or Just Overall?)<br/>
