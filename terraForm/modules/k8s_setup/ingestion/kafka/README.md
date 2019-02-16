@@ -3,4 +3,4 @@ Support for Kafka Connect to be added : simple yml file composition with -- http
 Lots of credit to : https://imti.co/kafka-kubernetes/
 
 
-Need to fix persistent volumes
+Need to fix persistent volumes -- I believe this is correct now
