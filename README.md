@@ -20,7 +20,7 @@ git clone https://github.com/cgoolsby/gateKeeper
 cd gateKeeper
 ```
 ```
-go run ./main2.go
+go run ./main.go
 ```
 
 This produces a variables_override.tf in your main directory.  In case you want to skip to this step in the future.<br/>
@@ -56,7 +56,13 @@ In general, editing the yml files of your respective technologies should be stra
 MONITORING:
 Currently only native Kubernetes Monitoring is supported with plans to support Prometheus/Grafana in the Future.  In order to do this follow the onscreen instructions.
 ```
-bash terraForm/Dashboard.sh
+bash terraForm/Dashboard.sh #Kubernetes Dashboard
+```
+```
+cd ~/Desktop/
+https://github.com/coreos/prometheus-operator.git
+cd -
+bash terraform/Promethus.sh
 ```
 TODOs:
 Implement sed feature to control # of master/worker nodes, and cpumin/maxing<br/>
