@@ -1,3 +1,5 @@
 *tfvars*
 *.terra*
 *.tfstate*
+*.jar
+test*
