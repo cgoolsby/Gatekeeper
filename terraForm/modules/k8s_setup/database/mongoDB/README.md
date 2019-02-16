@@ -1,3 +1,5 @@
+https://github.com/cvallance/mongo-k8s-sidecar
+
 # MongoDB on Kubernetes with Stateful Sets
 
 With the release of [Stateful Sets](http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/) and custom [Storage Classes](http://kubernetes.io/docs/user-guide/persistent-volumes/#storageclasses), Kubernetes can automate all of the underlying infra required to run a MongoDB Replica Sets
