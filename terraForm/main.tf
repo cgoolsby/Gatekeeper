@@ -62,6 +62,7 @@ module "k8s" {
   num_EKS_nodes_min = 1
   EKS_name = "Terraform-EKS"
   EKS_instance_type = "${var.KubeNodeType}"
+  EBSsize = "${var.EBSsize}"
 }
 module "k8s_setup" {
   source = "./modules/k8s_setup/"
@@ -96,7 +97,6 @@ module "k8s_setup" {
   DatabasePorts = "${var.DatabasePorts}"
   DatabaseCopies = "${var.DatabaseCopies}"
   DatabaseSize = "${var.DatabaseSize}"
-  EBSsize = "${var.EBSsize}"
   database_exists = "${var.database_exists}"
   compute_exists = "${var.compute_exists}"
   ingestion_exists = "${var.ingestion_exists}"
