@@ -1,0 +1,5 @@
+~compile
+libraryDependencies ++= "com.datastax.spark" %% "spark-cassandra-connector" % "2.11-2.0.8" from "file:///spark-cassandra-connector_2.11-2.0.8.jar" 
+libraryDependencies += "com.datastax.spark" %% "spark-cassandra-connector" % "2.11-2.0.8" from "file:///spark-cassandra-connector_2.11-2.0.8.jar" 
+libraryDependencies = "com.datastax.spark" %% "spark-cassandra-connector" % "2.11-2.0.8" from "file:///spark-cassandra-connector_2.11-2.0.8.jar" 
+exit
