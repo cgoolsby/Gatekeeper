@@ -101,6 +101,9 @@ variable "DatabaseCopies" {
 variable "DatabaseSize" {
   default = 0
 }
+variable "EBSsize" {
+  default = 40
+}
 variable "EC2num" {
   default = 0
 }

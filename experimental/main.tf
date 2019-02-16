@@ -96,6 +96,7 @@ module "k8s_setup" {
   DatabasePorts = "${var.DatabasePorts}"
   DatabaseCopies = "${var.DatabaseCopies}"
   DatabaseSize = "${var.DatabaseSize}"
+  EBSsize = "${var.EBSsize}"
   database_exists = "${var.database_exists}"
   compute_exists = "${var.compute_exists}"
   ingestion_exists = "${var.ingestion_exists}"

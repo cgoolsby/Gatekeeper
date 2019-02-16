@@ -16,3 +16,4 @@ variable "EKS_Subnet_list" {
 }
 variable "sg-BH_Cluster_Open_id" {}
 variable "EKS_instance_type" {}
+variable "EBSsize" {}
