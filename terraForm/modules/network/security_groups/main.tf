@@ -26,8 +26,7 @@ resource "aws_security_group_rule" "open_self_in" {
   to_port = 0
   protocol = "-1"
   security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
- # source_security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
-  cidr_blocks = ["0.0.0.0/0"]
+  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
 }
 resource "aws_security_group_rule" "open_self_out" {
   type = "egress"
@@ -35,8 +34,7 @@ resource "aws_security_group_rule" "open_self_out" {
   to_port = 0
   protocol = "-1"
   security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
-  #source_security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
-  cidr_blocks = ["0.0.0.0/0"]
+  source_security_group_id = "${aws_security_group.BH_Cluster_Open.id}"
 }
 resource "aws_security_group_rule" "ssh_in" {
   type = "ingress"
