@@ -54,7 +54,8 @@ In general, editing the yml files of your respective technologies should be stra
 
 
 MONITORING:
-Currently only native Kubernetes Monitoring is supported with plans to support Prometheus/Grafana in the Future.  In order to do this follow the onscreen instructions.
+Kubernetes Native Monitoring as well as Prometheus/Grafana are supported.  Run Dashboard.sh for Kubernetes and/or Prometheus.sh for Prometheus/Grafana.
+
 ```
 bash terraForm/Dashboard.sh #Kubernetes Dashboard
 ```
