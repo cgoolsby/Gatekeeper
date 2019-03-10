@@ -9,7 +9,11 @@ import (
   "os/exec"
 )
 
-//var fileName = "test2.yml"
+
+//As of right now, this is a VERY BASIC CLI interface that was created to meet the deadlines of Insight.  Proof in concept really.
+
+
+// output filename - variables_override.tf
 var fileName = "variables_override.tf"
 
 // give user a list of options, then write that option to the yml
@@ -235,6 +239,3 @@ func main() {
   skipPorts(name)
 }
 
-  cmd := exec.Command("cp", fileName, "../ymlToTerra/")
-  _ = cmd.Run()
-}
