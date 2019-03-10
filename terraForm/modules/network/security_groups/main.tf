@@ -41,7 +41,7 @@ resource "aws_security_group_rule" "ssh_in" {
   from_port = 22
   to_port = 22
   protocol = "tcp"
-  cidr_blocks = "${var.home-ip}"
+  cidr_blocks = ["${local.ipAddress}"]
   security_group_id = "${aws_security_group.ssh_in_out.id}"
 }
 resource "aws_security_group_rule" "ssh_out" {
@@ -57,7 +57,7 @@ resource "aws_security_group_rule" "http_in" {
   from_port = 80
   to_port = 80
   protocol = "tcp"
-  cidr_blocks = "${var.home-ip}"
+  cidr_blocks = ["${local.ipAddress}"]
   security_group_id = "${aws_security_group.http_in_out.id}"
 }
 resource "aws_security_group_rule" "node_out" {
@@ -74,7 +74,7 @@ resource "aws_security_group_rule" "http_in8080" {
   from_port = 8080
   to_port = 8080
   protocol = "tcp"
-  cidr_blocks = "${var.home-ip}"
+  cidr_blocks = ["${local.ipAddress}"]
   security_group_id = "${aws_security_group.http_in_out.id}"
 }
 resource "aws_security_group_rule" "http_out" {
@@ -98,7 +98,7 @@ resource "aws_security_group_rule" "https_in" {
   from_port = 443
   to_port = 443
   protocol = "tcp"
-  cidr_blocks = "${var.home-ip}"
+  cidr_blocks = ["${local.ipAddress}"]
   security_group_id = "${aws_security_group.https_in_out.id}"
 }
 resource "aws_security_group_rule" "https_out" {
