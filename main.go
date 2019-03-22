@@ -14,7 +14,7 @@ import (
 
 
 // output filename - variables_override.tf
-var fileName = "variables_override.tf"
+var fileName = "terraForm/variables_override.tf"
 
 // give user a list of options, then write that option to the yml
 func selectOption(name string, options []string) (int){
@@ -94,12 +94,12 @@ func portsOpen(name string) {
       n = numbers(portsString)
     }
     for _ , i := range n {
-      writeYml(fileName, "OpenPort", strconv.Itoa(i))
+      writeYml(fileName, name+"Port", strconv.Itoa(i))
     }
-  }else{writeYml(fileName, "OpenPort", "None")}
+  }else{writeYml(fileName, name+"Port", "None")}
 }
 func skipPorts(name string) {
-  writeYml(fileName, "OpenPort", "None")
+  writeYml(fileName, name+"Port", "None")
 }
 // write two options seperated by a colon
 func writeYml(fileName, opt1, opt2 string) {
@@ -128,7 +128,7 @@ func readNumber() (number int) {
   }
 func CPU_Mem_Max_Min(name string) {
   var input int
-  options := []string{"CPUMax", "CPUMin", "MemMax", "MemMin"}
+  options := []string{"CPUMasterMax", "CPUMasterMin", "MasterMemMax", "MasterMemMin"}
   for _, j := range options {
     fmt.Println("What is the", j, " for the ", name)
     fmt.Scanln(&input)
@@ -136,7 +136,7 @@ func CPU_Mem_Max_Min(name string) {
   }
 }
 func skipCPU_Mem(name string) {
-  options := []string{"CPUMax", "CPUMin", "MemMax", "MemMin"}
+  options := []string{"CPUWorkerMax", "CPUWorkerMin", "MemWorkerMax", "MemWorkerMin"}
   for _, j := range options {
     writeYml(fileName, name+j, "0")
   }
@@ -194,8 +194,8 @@ func main() {
   //computeWorkerMin/Max
   CPU_Mem_Max_Min("ComputeClusterWorker")
 }else{
-  writeYml(fileName, "Master", "0")
-  writeYml(fileName, "Worker", "0")
+  writeYml(fileName, "ComputeMaster", "0")
+  writeYml(fileName, "ComputeWorker", "0")
   skipPorts(name)
   skipCPU_Mem(name)
   skipCPU_Mem(name)
