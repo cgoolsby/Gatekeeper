@@ -126,17 +126,17 @@ func readNumber() (number int) {
     }
     return number
   }
-func CPU_Mem_Max_Min(name string) {
+func CPU_Mem_Max_Min(name, position string) {
   var input int
-  options := []string{"CPUMasterMax", "CPUMasterMin", "MasterMemMax", "MasterMemMin"}
+  options := []string{"CPU"+position+"Max", "CPU"+position+"Min", position+"MemMax", position+"MemMin"}
   for _, j := range options {
     fmt.Println("What is the", j, " for the ", name)
     fmt.Scanln(&input)
     writeYml(fileName, name+j, strconv.Itoa(input))
   }
 }
-func skipCPU_Mem(name string) {
-  options := []string{"CPUWorkerMax", "CPUWorkerMin", "MemWorkerMax", "MemWorkerMin"}
+func skipCPU_Mem(name, position string) {
+  options := []string{"CPU"+position+"Max", "CPU"+position+"Min", "Mem"+position+"Max", "Mem"+position+"Min"}
   for _, j := range options {
     writeYml(fileName, name+j, "0")
   }
@@ -166,15 +166,15 @@ func main() {
   //numberofWorkers
   writeYml(fileName, "IngestionWorker", "3")
   //ingestionMastermin/max
-  CPU_Mem_Max_Min("IngestionMaster")
+  CPU_Mem_Max_Min("IngestionMaster", "Master")
   //ingestionWorkerMin/Max
-  CPU_Mem_Max_Min("IngestionWorker")
+  CPU_Mem_Max_Min("IngestionWorker", "Worker")
 }else{
   writeYml(fileName, "IngestionMaster", "0")
   writeYml(fileName, "IngestionWorker", "0")
   skipPorts(name)
-  skipCPU_Mem(name)
-  skipCPU_Mem(name)
+  skipCPU_Mem(name, "Master")
+  skipCPU_Mem(name, "Worker")
 }
   //Compute Cluster
   //compute
@@ -190,15 +190,15 @@ func main() {
   //numberofWorkers
   writeYml(fileName, "ComputeWorker", "3")
   //computeMasterMin/Max
-  CPU_Mem_Max_Min("ComputeClusterMaster")
+  CPU_Mem_Max_Min("ComputeClusterMaster", "Master")
   //computeWorkerMin/Max
-  CPU_Mem_Max_Min("ComputeClusterWorker")
+  CPU_Mem_Max_Min("ComputeClusterWorker", "Worker")
 }else{
   writeYml(fileName, "ComputeMaster", "0")
   writeYml(fileName, "ComputeWorker", "0")
   skipPorts(name)
-  skipCPU_Mem(name)
-  skipCPU_Mem(name)
+  skipCPU_Mem(name, "Master")
+  skipCPU_Mem(name, "Worker")
 }
   //Database
   DataBase := []string{"None", "mySQL", "postgres", "postGIS", "cassandra", "mongoDB"}
