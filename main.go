@@ -103,7 +103,6 @@ func skipPorts(name string) {
 }
 // write two options seperated by a colon
 func writeYml(fileName, opt1, opt2 string) {
-  fmt.Println(opt1)
   write := ("variable \"" + opt1 + "\" {\n  default = \"" + opt2 + "\"\n}")
   f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   if err != nil {
