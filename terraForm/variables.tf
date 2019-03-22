@@ -1,6 +1,5 @@
 variable "key_name" {
   description = ".pem prefix"
-  default = "jello"
 }
 variable "key_path" {
   description = ".pem suffix included"
