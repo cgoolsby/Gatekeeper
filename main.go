@@ -14,7 +14,7 @@ import (
 
 
 // output filename - variables_override.tf
-var fileName = "terraForm/variables_override.tf"
+var fileName = "variables_override.tf"
 
 // give user a list of options, then write that option to the yml
 func selectOption(name string, options []string) (int){
@@ -103,6 +103,7 @@ func skipPorts(name string) {
 }
 // write two options seperated by a colon
 func writeYml(fileName, opt1, opt2 string) {
+  fmt.Println(opt1)
   write := ("variable \"" + opt1 + "\" {\n  default = \"" + opt2 + "\"\n}")
   f, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   if err != nil {
@@ -162,9 +163,9 @@ func main() {
   //ingestionPorts
   portsOpen(name)
   //numberofMasters
-  writeYml(fileName, "Master", "1")
+  writeYml(fileName, "IngestionMaster", "1")
   //numberofWorkers
-  writeYml(fileName, "Worker", "3")
+  writeYml(fileName, "IngestionWorker", "3")
   //ingestionMastermin/max
   CPU_Mem_Max_Min("IngestionMaster")
   //ingestionWorkerMin/Max
@@ -186,9 +187,9 @@ func main() {
   //computePorts
   portsOpen(name)
   //numberofMasters
-  writeYml(fileName, "Master", "1")
+  writeYml(fileName, "ComputeMaster", "1")
   //numberofWorkers
-  writeYml(fileName, "Worker", "3")
+  writeYml(fileName, "ComputeWorker", "3")
   //computeMasterMin/Max
   CPU_Mem_Max_Min("ComputeClusterMaster")
   //computeWorkerMin/Max
@@ -235,7 +236,6 @@ func main() {
   //EC2Ports
   portsOpen(name)
 }else{
-  writeYml(fileName, name, "None")
-  skipPorts(name)
+  skipPorts("EC2")
 }
 }
