@@ -112,3 +112,6 @@ variable "EC2type" {
 variable "EC2Ports" {
   default = ""
 }
+variable "database_exists" {default = 0}
+variable "compute_exists" {default = 0}
+variable "ingestion_exists" {default = 0}
