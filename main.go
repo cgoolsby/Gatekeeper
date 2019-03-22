@@ -6,7 +6,7 @@ import (
   "strings"
   "strconv"
   "bufio"
-  "os/exec"
+//  "os/exec"
 )
 
 
@@ -238,4 +238,4 @@ func main() {
   writeYml(fileName, name, "None")
   skipPorts(name)
 }
-
+}
