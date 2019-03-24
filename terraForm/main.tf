@@ -33,7 +33,7 @@ module "route_tables" {
   Public_Subnet_id_list = "${module.subnets.public_subnet_ids}"
   Private_Subnet_id_list = "${module.subnets.private_subnet_ids}"
 }
-#module "webservers" {
+#module "webservers" { #Note, this is not 'dead' code.  A user can enable this if they want a flask front-end.  It is here if they want it.
 #  source = "./modules/webservers/"
 #  vpc_id = "${module.vpc_network.vpc_id}"
 #  public_subnet_id = "${module.subnets.public_subnet_ids[0]}"
@@ -45,18 +45,16 @@ module "route_tables" {
 #  aws_key_name = "${var.key_name}"
 #  aws_key_path = "${var.key_path}"
 #}
-#module "s3" {
+#module "s3" { #Ditto, this is for making an s3 bucket if desired.
 #  source = "./modules/s3/"
 #}
 module "k8s" {
   source = "./modules/k8s/"
   vpc_id = "${module.vpc_network.vpc_id}"
   EKS_Subnet_list = "${module.subnets.public_subnet_ids}"
-#  private_subnet_id = "${module.subnets.private_subnet_ids}"
   sg-BH_Cluster_Open_id = "${module.security_groups.sg-BH_Cluster_Open}"
   sg-node_out_id = "${module.security_groups.sg-node_out}"
   sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
-  ### Where the tech params will be passed in
   num_EKS_nodes_desired = "${var.KubeNodes}"
   num_EKS_nodes_max = "${var.KubeNodes}"
   num_EKS_nodes_min = 1
@@ -105,7 +103,6 @@ module "extraEC2" {
   source = "./modules/extraEC2/"
   extraEC2count = "${var.EC2num}"
   aws_instance_type = "${var.EC2type}"
-#  EC2Ports = "${var.EC2Ports}"
   public_subnet_id = "${module.subnets.public_subnet_ids[0]}"
   sg-ssh_id = "${module.security_groups.sg-ssh_id}" 
   aws_key_name = "${var.key_name}"
