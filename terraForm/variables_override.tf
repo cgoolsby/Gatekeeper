@@ -1,36 +1,47 @@
-variable "KubeNodeType" {default = "m4.large"}
-variable "KubeNodes" {default = "4"}
-variable "Ingestion" {default = "kafka"}
-variable "IngestionPorts" {default = ""}
-variable "IngestionMaster" {default = "1"}
-variable "IngestionWorker" {default = "3"}
-variable "IngestionMasterCPUMax" {default = "100"}
-variable "IngestionMasterCPUMin" {default = "100"}
-variable "IngestionMasterMemMax" {default = "512"}
-variable "IngestionMasterMemMin" {default = "512"}
-variable "IngestionWorkerCPUMax" {default = "100"}
-variable "IngestionWorkerCPUMin" {default = "100"}
-variable "IngestionWorkerMemMax" {default = "512"}
-variable "IngestionWorkerMemMin" {default = "512"}
-variable "Compute" {default = "spark"}
-variable "ComputePorts" {default = ""}
-variable "ComputeMaster" {default = "1"}
-variable "ComputeWorker" {default = "3"}
-variable "ComputeMasterCPUMax" {default = "100"}
-variable "ComputeMasterCPUMin" {default = "100"}
-variable "ComputeMasterMemMax" {default = "512"}
-variable "ComputeMasterMemMin" {default = "512"}
-variable "ComputeWorkerCPUMax" {default = "100"}
-variable "ComputeWorkerCPUMin" {default = "100"}
-variable "ComputeWorkerMemMax" {default = "512"}
-variable "ComputeWorkerMemMin" {default = "512"}
-variable "Database" {default = "postgres"}
-variable "DatabasePorts" {default = ""}
-variable "DatabaseCopies" {default = "3"}
-variable "DatabaseSize" {default = "1"}
-variable "EC2num" {default = "1"}
-variable "EC2type" {default = "t2.medium"}
-variable "EC2Ports" {default = ""}
-variable "ingestion_exists" {default = "1"}
-variable "database_exists" {default = "1"}
-variable "compute_exists" {default = "1"}
+variable "KubeNodeType" {
+  default = "m4.large"
+}variable "KubeNodes" {
+  default = "3"
+}variable "Ingestion" {
+  default = "None"
+}variable "IngestionMaster" {
+  default = "0"
+}variable "IngestionWorker" {
+  default = "0"
+}variable "Compute" {
+  default = "spark"
+}variable "compute_exists" {
+  default = "1"
+}variable "ComputePort" {
+  default = "None"
+}variable "ComputeMaster" {
+  default = "1"
+}variable "ComputeWorker" {
+  default = "6"
+}variable "ComputeClusterMasterCPUMax" {
+  default = "3"
+}variable "ComputeClusterMasterCPUMin" {
+  default = "1"
+}variable "ComputeClusterMasterMemMax" {
+  default = "3"
+}variable "ComputeClusterMasterMemMin" {
+  default = "1"
+}variable "ComputeClusterWorkerCPUMax" {
+  default = "3"
+}variable "ComputeClusterWorkerCPUMin" {
+  default = "1"
+}variable "ComputeClusterWorkerMemMax" {
+  default = "3"
+}variable "ComputeClusterWorkerMemMin" {
+  default = "1"
+}variable "Database" {
+  default = "None"
+}variable "DatabaseCopies" {
+  default = "0"
+}variable "DatabaseSize" {
+  default = "0"
+}variable "EC2num" {
+  default = "0"
+}variable "EC2Port" {
+  default = "None"
+}
