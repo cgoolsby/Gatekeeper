@@ -126,17 +126,17 @@ func readNumber() (number int) {
     }
     return number
   }
-func CPU_Mem_Max_Min(name, position string) {
+func CPU_Mem_Max_Min(name string) {
   var input int
-  options := []string{"CPU"+position+"Max", "CPU"+position+"Min", position+"MemMax", position+"MemMin"}
+  options := []string{"CPUMax", "CPUMin", "MemMax", "MemMin"}
   for _, j := range options {
     fmt.Println("What is the", j, " for the ", name)
     fmt.Scanln(&input)
     writeYml(fileName, name+j, strconv.Itoa(input))
   }
 }
-func skipCPU_Mem(name, position string) {
-  options := []string{"CPU"+position+"Max", "CPU"+position+"Min", "Mem"+position+"Max", "Mem"+position+"Min"}
+func skipCPU_Mem(name string) {
+  options := []string{"CPUMax", "CPUMin", "MemMax", "MemMin"}
   for _, j := range options {
     writeYml(fileName, name+j, "0")
   }
@@ -166,15 +166,12 @@ func main() {
   //numberofWorkers
   writeYml(fileName, "IngestionWorker", "3")
   //ingestionMastermin/max
-  CPU_Mem_Max_Min("IngestionMaster", "Master")
+  CPU_Mem_Max_Min("IngestionMaster")
   //ingestionWorkerMin/Max
-  CPU_Mem_Max_Min("IngestionWorker", "Worker")
+  CPU_Mem_Max_Min("IngestionWorker")
 }else{
   writeYml(fileName, "IngestionMaster", "0")
   writeYml(fileName, "IngestionWorker", "0")
-  skipPorts(name)
-  skipCPU_Mem(name, "Master")
-  skipCPU_Mem(name, "Worker")
 }
   //Compute Cluster
   //compute
@@ -190,15 +187,12 @@ func main() {
   //numberofWorkers
   writeYml(fileName, "ComputeWorker", "3")
   //computeMasterMin/Max
-  CPU_Mem_Max_Min("ComputeClusterMaster", "Master")
+  CPU_Mem_Max_Min("ComputeClusterMaster")
   //computeWorkerMin/Max
-  CPU_Mem_Max_Min("ComputeClusterWorker", "Worker")
+  CPU_Mem_Max_Min("ComputeClusterWorker")
 }else{
   writeYml(fileName, "ComputeMaster", "0")
   writeYml(fileName, "ComputeWorker", "0")
-  skipPorts(name)
-  skipCPU_Mem(name, "Master")
-  skipCPU_Mem(name, "Worker")
 }
   //Database
   DataBase := []string{"None", "mySQL", "postgres", "postGIS", "cassandra", "mongoDB"}
@@ -218,7 +212,6 @@ func main() {
   number = readNumber()
   writeYml(fileName, "DatabaseSize", strconv.Itoa(number))
 }else{
-  skipPorts(name)
   writeYml(fileName, "DatabaseCopies", "0")
   writeYml(fileName, "DatabaseSize", "0")
 }
