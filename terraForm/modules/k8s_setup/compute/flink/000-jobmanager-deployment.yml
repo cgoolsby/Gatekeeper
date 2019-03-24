@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: flink-jobmanager
 spec:
-  replicas: 1
+  replicas: MASTER #1
   template:
     metadata:
       labels:
