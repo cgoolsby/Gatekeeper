@@ -29,7 +29,7 @@ metadata:
     component: zookeeper
 spec:
   serviceName: zookeeper
-  replicas: 1
+  replicas: MASTER # 1
   template:
     metadata:
       labels:
