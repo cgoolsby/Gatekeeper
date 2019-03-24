@@ -5,7 +5,7 @@ metadata:
     presto: worker
   name: worker
 spec:
-  replicas: 1
+  replicas: WORKER #1
   template:
     metadata:
       labels:

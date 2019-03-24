@@ -5,7 +5,7 @@ metadata:
   labels:
     presto: coordinator
 spec:
-  replicas: 1
+  replicas: MASTER #1
   template:
     metadata:
       labels:
