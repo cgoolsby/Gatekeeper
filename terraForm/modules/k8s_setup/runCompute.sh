@@ -30,16 +30,16 @@ rm -rf compute/current/
 mkdir compute/current/
 cp -r compute/$name/* compute/current/*
 
-sed -i 's/MASTER/$master/g' compute/current/*.yml
-sed -i 's/WORKER/$worker/g' compute/current/*.yml
-sed -i 's/MASTERCPUMAX/$masterCPUMax/g' compute/current/*.yml
-sed -i 's/MASTERCPUMIN/$masterCPUMin/g' compute/current/*.yml
-sed -i 's/MASTERMEMMAX/$masterMemMax/g' compute/current/*.yml
-sed -i 's/MASTERMEMMIN/$masterMemMin/g' compute/current/*.yml
-sed -i 's/WORKERCPUMAX/$workerCPUMax/g' compute/current/*.yml
-sed -i 's/WORKERCPUMIN/$workerCPUMin/g' compute/current/*.yml
-sed -i 's/WORKERMEMMAX/$workerMemMax/g' compute/current/*.yml
-sed -i 's/WORKERMEMMIN/$workerMemMin/g' compute/current/*.yml
+sed -i'' 's/MASTER/$master/g' compute/current/*.yml
+sed -i'' 's/WORKER/$worker/g' compute/current/*.yml
+sed -i'' 's/MASTERCPUMAX/$masterCPUMax/g' compute/current/*.yml
+sed -i'' 's/MASTERCPUMIN/$masterCPUMin/g' compute/current/*.yml
+sed -i'' 's/MASTERMEMMAX/$masterMemMax/g' compute/current/*.yml
+sed -i'' 's/MASTERMEMMIN/$masterMemMin/g' compute/current/*.yml
+sed -i'' 's/WORKERCPUMAX/$workerCPUMax/g' compute/current/*.yml
+sed -i'' 's/WORKERCPUMIN/$workerCPUMin/g' compute/current/*.yml
+sed -i'' 's/WORKERMEMMAX/$workerMemMax/g' compute/current/*.yml
+sed -i'' 's/WORKERMEMMIN/$workerMemMin/g' compute/current/*.yml
 for i in `ls compute/current/*.yml`; do kubectl create -f $i; done
 #Port Forwarding Logic here? i.e. for loop through the array, open ports.  Seems difficult to target each instance after creation?
 
