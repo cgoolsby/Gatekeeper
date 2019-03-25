@@ -19,7 +19,7 @@ resource "local_file" "config_map_aws_auth" {
     filename = "config_map_aws_auth.yml"
 }
 resource "null_resource" "ApplyAWSCredentials" {
-  depends_on = ["null_resource.makeKubeConfig"]
+  depends_on = ["null_resource.makeKubeConfig", "module.k8s_setup"]
   triggers { 
     template = "${local_file.config_map_aws_auth.content}"
   }
